@@ -6,7 +6,7 @@
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/18 13:44:53 by aleung-c          #+#    #+#             */
-/*   Updated: 2014/12/19 19:00:37 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/01/02 17:47:52 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,18 @@
 # include "./libft/libft.h"
 # include <mlx.h>
 # include <math.h>
+# include <X11/X.h>
 
 typedef struct			s_wolf
 {
 	//	Mlx starting variables.
 	void			*mlx;
 	void			*win;
+	void			*imgv;
+	char *img;
+	int bpp;
+	int sizeline;
+	int endian;
 
 	int				**map;
 
@@ -38,10 +44,10 @@ typedef struct			s_wolf
 	double			angle_rev;
 	int				x_seg;
 	int				y_seg;
-	int				angle_min;
-	int				angle_max;
-	int				x_wall_check;
-	int				y_wall_check;
+	double			angle_min;
+	double			angle_max;
+	double			x_wall_check;
+	double			y_wall_check;
 
 	// Defining screen.
 

@@ -6,7 +6,7 @@
 #    By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/12/18 14:05:55 by aleung-c          #+#    #+#              #
-#    Updated: 2014/12/19 12:35:01 by aleung-c         ###   ########.fr        #
+#    Updated: 2014/12/22 13:42:02 by aleung-c         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -20,10 +20,10 @@ SRCO = $(SRC:.c=.o)
 
 LIB = ./libft/
 
-MLX = -L/usr/X11/lib -lXext -lX11 -lmlx
+MLX = -L/usr/X11/lib -lXext -lX11 -lmlx -I/opt/X11/include
 
 $(NAME) :
-	gcc -c -Wall -Werror -Wextra $(SRC)
+	gcc -c -Wall -Werror -Wextra $(SRC) $(MLX)
 	cd $(LIB) ; make re
 	gcc -o $(NAME) $(HEADER) -Wall -Werror -Wextra $(SRCO) -L./libft/ -lft $(MLX)
 
