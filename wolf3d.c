@@ -16,8 +16,8 @@ void ft_advance(t_wolf *w)
 {
 	if (w->map[w->y_seg / w->wall_size][w->x_seg / w->wall_size] == 0)
 	{
-		w->x = w->x + cos((w->angle / 180.0) * M_PI) * 8.0;
-		w->y = w->y - sin((w->angle / 180.0) * M_PI) * 8.0;
+		w->x = w->x + cos((w->angle / 180) * M_PI) * 6;
+		w->y = w->y - sin((w->angle / 180) * M_PI) * 6;
 	}
 }
 
@@ -25,8 +25,8 @@ void ft_backstep(t_wolf *w)
 {
 	if (w->map[w->y_back / w->wall_size][w->x_back / w->wall_size] == 0)
 	{
-		w->x = w->x - cos((w->angle / 180.0) * M_PI) * 8.0;
-		w->y = w->y + sin((w->angle / 180.0) * M_PI) * 8.0;
+		w->x = w->x - cos((w->angle / 180) * M_PI) * 6;
+		w->y = w->y + sin((w->angle / 180) * M_PI) * 6;
 	}
 }
 
@@ -64,21 +64,20 @@ void ft_wall_trace(t_wolf *w) // Pour tracer les rayons
 	
 	x_screen = 0;
 	y_screen = 0;
-	dist = 0.0;
+//	dist = 0.0;
 	trace_y = 0;
 	trace_iny = 0;
-
 	
 	init_view_angles(w);
 	while (x_screen != w->wolf_width)
 	{
 		w->x_wall_check = w->x;
 		w->y_wall_check = w->y;
-		
 
 		ray_advances(w);
 		//	dist = dist * cos(fabs(w->angle - w->angle_min) / 180 * M_PI);
 		dist = sqrt((w->x_wall_check - w->x) * (w->x_wall_check - w->x) + (w->y_wall_check - w->y) * (w->y_wall_check - w->y));
+		dist = dist  * cos((int)w->angle);
 		//printf("%lf ", dist);
 		while (y_screen < w->wolf_height)
 		{
@@ -95,7 +94,6 @@ void ft_wall_trace(t_wolf *w) // Pour tracer les rayons
 			while (trace_iny < (w->wall_size / dist) * 290 && trace_y < w->wolf_height)
 			{
 				//mlx_pixel_put(w->mlx, w->win, x_screen, trace_y + 200, 0x00CCFF);
-				
 				w->img = pixel_put_to_image(w, x_screen, trace_y);
 				trace_y++;
 				trace_iny++;
@@ -109,7 +107,7 @@ void ft_wall_trace(t_wolf *w) // Pour tracer les rayons
 			}
 			y_screen++;
 		}
-		dist = 0.0;
+		//dist = 0.0;
 		trace_y = 0;
 		trace_iny = 0;
 		y_screen = 0;
@@ -137,7 +135,6 @@ void 	ft_wolf(t_wolf *w)
 		ft_backstep(w);
 	}
 
-
 	// les images :
 	w->imgv = mlx_new_image(w->mlx, w->wolf_width, w->wolf_height); // declarer nouvelle image
 	w->img = mlx_get_data_addr(w->imgv, &w->bpp, &w->sizeline, &w->endian); // initialise char* de l'image.
@@ -153,10 +150,10 @@ void 	ft_wolf(t_wolf *w)
 	w->img_minimap = mlx_get_data_addr(w->imgv_minimap, &w->bpp_minimap, &w->sizeline_minimap, &w->endian_minimap);
 
 	w->angle_rev = angle_rev(w->angle);
-	w->x_seg = w->x + cos((w->angle / 180.0) * M_PI) * 6.0;
-	w->y_seg = w->y - sin((w->angle / 180.0) * M_PI) * 6.0;
-	w->x_back = w->x + cos((w->angle_rev / 180.0) * M_PI) * 6.0;
-	w->y_back = w->y - sin((w->angle_rev / 180.0) * M_PI) * 6.0;
+	w->x_seg = w->x + cos((w->angle / 180) * M_PI) * 6;
+	w->y_seg = w->y - sin((w->angle / 180) * M_PI) * 6;
+	w->x_back = w->x + cos((w->angle_rev / 180) * M_PI) * 6;
+	w->y_back = w->y - sin((w->angle_rev / 180) * M_PI) * 6;
 
 	ft_wall_trace(w);
 	mlx_put_image_to_window(w->mlx, w->win, w->imgv, 0, 0);
@@ -260,11 +257,6 @@ int key_release(int keycode, t_wolf *w)
 				w->down = 0;
 				//ft_backstep(w);
 			}
-		if (keycode == 65307)
-		{
-			ft_putendl("Exit Wolf3d");
-			exit(0);
-		}
 	}
 	return (0);
 }
