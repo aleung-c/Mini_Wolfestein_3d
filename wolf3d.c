@@ -54,68 +54,6 @@ void display_int_map(t_wolf w)
 	}
 }
 
-void ft_wall_trace(t_wolf *w) // Pour tracer les rayons
-{
-	int x_screen;
-	int y_screen;
-	double dist;
-	int trace_y;
-	int trace_iny;
-	
-	x_screen = 0;
-	y_screen = 0;
-//	dist = 0.0;
-	trace_y = 0;
-	trace_iny = 0;
-	
-	init_view_angles(w);
-	while (x_screen != w->wolf_width)
-	{
-		w->x_wall_check = w->x;
-		w->y_wall_check = w->y;
-
-		ray_advances(w);
-		//	dist = dist * cos(fabs(w->angle - w->angle_min) / 180 * M_PI);
-		dist = sqrt((w->x_wall_check - w->x) * (w->x_wall_check - w->x) + (w->y_wall_check - w->y) * (w->y_wall_check - w->y));
-		dist = dist  * cos((int)w->angle);
-		//printf("%lf ", dist);
-		while (y_screen < w->wolf_height)
-		{
-			//ciel
-			while (trace_y < ((w->wolf_height) -  (w->wall_size / dist) * 290) / 2)
-			{
-				set_color(w, 51, 204, 255);
-				w->img = pixel_put_to_image(w, x_screen, trace_y);
-				trace_y++;
-			}
-			//mur
-			set_color(w, 102, 153, 51);
-			color_less_dist(w, (int)dist / 4);
-			while (trace_iny < (w->wall_size / dist) * 290 && trace_y < w->wolf_height)
-			{
-				//mlx_pixel_put(w->mlx, w->win, x_screen, trace_y + 200, 0x00CCFF);
-				w->img = pixel_put_to_image(w, x_screen, trace_y);
-				trace_y++;
-				trace_iny++;
-			}
-			// sol
-			while (trace_y < w->wolf_height)
-			{
-				set_color(w, 240, 240, 240);
-				w->img = pixel_put_to_image(w, x_screen, trace_y);
-				trace_y++;
-			}
-			y_screen++;
-		}
-		//dist = 0.0;
-		trace_y = 0;
-		trace_iny = 0;
-		y_screen = 0;
-		w->angle_min = angle_check(w->angle_min -= 0.075); //0.075
-		x_screen++;
-	}
-}
-
 void 	ft_wolf(t_wolf *w)
 {
 	if (w->right == 1) // right
@@ -139,11 +77,8 @@ void 	ft_wolf(t_wolf *w)
 	w->imgv = mlx_new_image(w->mlx, w->wolf_width, w->wolf_height); // declarer nouvelle image
 	w->img = mlx_get_data_addr(w->imgv, &w->bpp, &w->sizeline, &w->endian); // initialise char* de l'image.
 	// obtenir adresse de la string de l'image avec mlx get data addr.
-	// dessiner dans la string en se positionnant avec la formule suivante :
-
-	// (screen_width * bits per pixel(pas sur)) * position dans la colonne (y) + (x * bits per pixels)
-
-	// en effet, pour se deplacer en pixel dans l'image, il faut se deplacer en bits par rapports aux char de
+	
+	// Pour se deplacer en pixel dans l'image, il faut se deplacer en bits par rapports aux char de
 	// la string, en connaissant la taille de la largeur de l'ecran.
 
 	w->imgv_minimap = mlx_new_image(w->mlx, 700, 720);
@@ -155,9 +90,8 @@ void 	ft_wolf(t_wolf *w)
 	w->x_back = w->x + cos((w->angle_rev / 180) * M_PI) * 6;
 	w->y_back = w->y - sin((w->angle_rev / 180) * M_PI) * 6;
 
-	ft_wall_trace(w);
+	ft_trace(w);
 	mlx_put_image_to_window(w->mlx, w->win, w->imgv, 0, 0);
-
 
 	ft_upview_map(w);
 	ft_upview_map_vfield(w);
@@ -167,22 +101,24 @@ void 	ft_wolf(t_wolf *w)
 	mlx_destroy_image(w->mlx, w->imgv_minimap);
 }
 
-
-
 void init_wolf_variables(t_wolf *w)
 {
 	w->angle = 0.0;
-	w->y = 5 * 64;
-	w->x = 5 * 64;
+	w->wall_size = WALL_SIZE;
+	w->y = 5 * w->wall_size;
+	w->x = 5 * w->wall_size;
 	w->y_seg = w->y;
 	w->x_seg = w->x;
 	w->y_back = w->y;
 	w->x_back = w->x;
-	w->wall_size = WALL_SIZE;
 	w->screen_width = SCREEN_W;
 	w->screen_height = SCREEN_H;
 	w->wolf_width = WOLF_W;
 	w->wolf_height = WOLF_H;
+	w->right = 0;
+	w->left = 0;
+	w->up = 0;
+	w->down = 0;
 }
 
 int		expose_hook(t_wolf *w)

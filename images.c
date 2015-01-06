@@ -12,34 +12,23 @@
 
 #include "wolf3d.h"
 
-char *pixel_put_to_image(t_wolf *w, int x, int y)
+char *pixel_put_to_image(t_wolf *w, int x, int y, int color)
 {
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-
-	r = w->color[1];
-	g = w->color[2];
-	b = w->color[3];
-
-	w->img[(y * w->sizeline) + (x * (w->bpp / 8))] = b;
-	w->img[(y * w->sizeline) + (x * (w->bpp / 8)) + 1] = g;
-	w->img[(y * w->sizeline) + (x * (w->bpp / 8)) + 2] = r;
+	w->img[(y * w->sizeline) + (x * (w->bpp / 8))] = color & 0x0000FF;
+	w->img[(y * w->sizeline) + (x * (w->bpp / 8)) + 1] = \
+	(color & 0x00FF00) >> 8;
+	w->img[(y * w->sizeline) + (x * (w->bpp / 8)) + 2] = \
+	(color & 0xFF0000) >> 16;
 	return (w->img);
 }
 
-char *pixel_put_to_image_minimap(t_wolf *w, int x, int y)
+char *pixel_put_to_image_minimap(t_wolf *w, int x, int y, int color)
 {
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-
-	r = w->color[1];
-	g = w->color[2];
-	b = w->color[3];
-
-	w->img_minimap[(y * w->sizeline_minimap) + (x * (w->bpp_minimap / 8))] = b;
-	w->img_minimap[(y * w->sizeline_minimap) + (x * (w->bpp_minimap / 8)) + 1] = g;
-	w->img_minimap[(y * w->sizeline_minimap) + (x * (w->bpp_minimap / 8)) + 2] = r;
+	w->img_minimap[(y * w->sizeline_minimap) + \
+	(x * (w->bpp_minimap / 8))] = color & 0x0000FF;
+	w->img_minimap[(y * w->sizeline_minimap) + \
+	(x * (w->bpp_minimap / 8)) + 1] = (color & 0x00FF00) >> 8;
+	w->img_minimap[(y * w->sizeline_minimap) + \
+	(x * (w->bpp_minimap / 8)) + 2] = (color & 0xFF0000) >> 16;
 	return (w->img_minimap);
 }

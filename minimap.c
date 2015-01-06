@@ -28,15 +28,12 @@ void ft_upview_map(t_wolf *w)
 		{
 			if(w->map[i][j] == 1)
 			{
-				//mlx_pixel_put(w->mlx, w->win, j * 64 + 910, i * 64, 0xFF0000);
-				set_color(w, 255, 0, 0);
-				w->img_minimap = pixel_put_to_image_minimap(w, j * w->wall_size, i * w->wall_size);
+				fill_square(w, j * w->wall_size, i * w->wall_size, 0xC8C8C8);
 			}
 			else
 			{
-				//mlx_pixel_put(w->mlx, w->win, j * 64 + 910, i * 64, 0xFFFFFF);
-				set_color(w, 255, 255, 255);
-				w->img_minimap = pixel_put_to_image_minimap(w, j * w->wall_size, i * w->wall_size);
+				w->img_minimap = pixel_put_to_image_minimap(w, j * w->wall_size, i * w->wall_size, 0xFFFFFF);
+				fill_square(w, j * w->wall_size, i * w->wall_size, 0x000000);
 			}
 			//ft_putnbr(w->map[i][j]);
 			//ft_putchar(' ');
@@ -49,6 +46,28 @@ void ft_upview_map(t_wolf *w)
 	}
 }
 
+void fill_square(t_wolf *w, int x, int y, int color)
+{
+	int size_y;
+	int size_x;
+
+	size_y = w->wall_size;
+	size_x = w->wall_size;
+	while (size_y)
+	{
+		while (size_x)
+		{
+			w->img_minimap = pixel_put_to_image_minimap(w, x, y, color);
+			size_x--;
+			x++;
+		}
+		x -= w->wall_size;
+		size_y--;
+		size_x = w->wall_size;
+		y++;
+	}
+}
+
 void ft_upview_map_vfield(t_wolf *w)
 {
 	int color;
@@ -56,14 +75,11 @@ void ft_upview_map_vfield(t_wolf *w)
 	color = 0x00CCFF;
 
 	//mlx_pixel_put(w->mlx, w->win, w->x + 910, w->y, 0xFFFFFFF);
-	set_color(w, 255, 255, 255);
-	w->img_minimap = pixel_put_to_image_minimap(w, w->x, w->y);
+	w->img_minimap = pixel_put_to_image_minimap(w, w->x, w->y, 0xFFFFFF);
 	//mlx_pixel_put(w->mlx, w->win, w->x_seg + 910, w->y_seg, 0xFF0000);
-	set_color(w, 255, 0, 0);
-	w->img_minimap = pixel_put_to_image_minimap(w, w->x_seg, w->y_seg);
+	w->img_minimap = pixel_put_to_image_minimap(w, w->x_seg, w->y_seg, 0xFF0000);
 	//mlx_pixel_put(w->mlx, w->win, w->x_back + 910, w->y_back, 0x3333FF);
-	set_color(w, 0, 0, 255);
-	w->img_minimap = pixel_put_to_image_minimap(w, w->x_back, w->y_back);
+	w->img_minimap = pixel_put_to_image_minimap(w, w->x_back, w->y_back, 0x0000CC);
 
 	w->angle_min_map = angle_check(w->angle + (60.0 / 2.0));
 	w->angle_max_map = angle_check(w->angle - (60.0 / 2.0));
@@ -76,8 +92,7 @@ void ft_upview_map_vfield(t_wolf *w)
 		while (w->map[(int)w->y_wall_check / w->wall_size][(int)w->x_wall_check / w->wall_size] != 1)
 		{
 			//mlx_pixel_put(w->mlx, w->win, w->x_wall_check + 910, w->y_wall_check, color);
-			set_color(w, 0, 255, 0);
-			w->img_minimap = pixel_put_to_image_minimap(w, w->x_wall_check, w->y_wall_check);
+			w->img_minimap = pixel_put_to_image_minimap(w, w->x_wall_check, w->y_wall_check, 0x00CC33);
 			w->x_wall_check = w->x_wall_check + cos((w->angle_min_map / 180.0) * M_PI) * 12.0;
 			w->y_wall_check = w->y_wall_check - sin((w->angle_min_map / 180.0) * M_PI) * 12.0;
 		}

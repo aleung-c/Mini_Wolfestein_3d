@@ -12,51 +12,13 @@
 
 #include "wolf3d.h"
 
-void	color_plus_one(t_wolf *w)
+int color_less_dist(int color, int dist)
 {
-	int i;
 
-	i = 0;
-	while (i < 3)
+	while (dist)
 	{
-		if (w->color[i] < 255)
-			w->color[i] += 1;
-		i++;
+		color--;
+		dist--;
 	}
-}
-
-void	color_less_one(t_wolf *w)
-{
-	int i;
-
-	i = 0;
-	while (i < 3)
-	{
-		if (w->color[i] > 0)
-			w->color[i] -= 1;
-		i++;
-	}
-}
-
-void	color_less_dist(t_wolf *w, int dist)
-{
-	int i;
-
-	i = 0;
-	while (i < 3)
-	{
-		if (w->color[i] > 1)
-			w->color[i] -= dist;
-		if (w->color[i] < 0)
-			w->color[i] = 0;
-		i++;
-	}
-}
-
-void	set_color(t_wolf *w, int r, int g, int b)
-{
-	w->color = (int *)malloc(sizeof(int) * 3);
-	w->color[1] = r;
-	w->color[2] = g;
-	w->color[3] = b;
+	return (color);
 }

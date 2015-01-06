@@ -52,7 +52,7 @@ typedef struct			s_wolf
 
 	// Defining coloring variables.
 
-	int *color; 
+	int color; 
 
 	//	Defining space view variables.
 
@@ -69,6 +69,12 @@ typedef struct			s_wolf
 	double			x_wall_check;
 	double			y_wall_check;
 	
+	// tracing
+
+	int trace_y;
+	//int trace_iny;
+
+	// minimap
 	void			*imgv_minimap;
 	char			*img_minimap;
 	int				bpp_minimap;
@@ -95,16 +101,22 @@ int					**ft_create_int_map(char *arg, t_wolf w);
 char				***ft_create_char_map(char *arg, t_wolf w);
 unsigned int		ft_count_values(char *str, int c);
 int					ft_measure_map(char *arg, t_wolf *w);
-void				color_plus_one(t_wolf *w);
-void				color_less_one(t_wolf *w);
-void				color_less_dist(t_wolf *w, int dist);
-void				set_color(t_wolf *w, int r, int g, int b);
+
+
 void				ft_upview_map(t_wolf *w);
 void				ft_upview_map_vfield(t_wolf *w);
 double				angle_check(double angle);
 int					angle_rev(int angle);
-char				*pixel_put_to_image(t_wolf *w, int x, int y);
-char				*pixel_put_to_image_minimap(t_wolf *w, int x, int y);
+void fill_square(t_wolf *w, int x, int y, int color);
+
+void ft_trace(t_wolf *w);
+void ft_wall_trace(t_wolf *w, int x_screen, int dist);
+
+char *pixel_put_to_image(t_wolf *w, int x, int y, int color);
+char *pixel_put_to_image_minimap(t_wolf *w, int x, int y, int color);
+
+int color_less_dist(int color, int dist);
+
 void				init_view_angles(t_wolf *w);
 void				ray_advances(t_wolf *w);
 
