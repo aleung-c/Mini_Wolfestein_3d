@@ -6,7 +6,7 @@
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/18 13:44:53 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/01/03 17:58:05 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/01/07 15:32:52 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,24 +104,24 @@ char				***ft_create_char_map(char *arg, t_wolf w);
 unsigned int		ft_count_values(char *str, int c);
 int					ft_measure_map(char *arg, t_wolf *w);
 
-
 void				ft_upview_map(t_wolf *w);
 void				ft_upview_map_vfield(t_wolf *w);
 double				angle_check(double angle);
 int					angle_rev(int angle);
-void fill_square(t_wolf *w, int x, int y, int color);
+void				fill_square(t_wolf *w, int x, int y, int color);
 
-void ft_trace(t_wolf *w);
-void ft_sky_trace(t_wolf *w, double dist);
-void ft_wall_trace(t_wolf *w, double dist, int color);
-void ft_floor_trace(t_wolf *w);
+void				ft_trace(t_wolf *w);
+void				ft_sky_trace(t_wolf *w, double dist);
+void				ft_wall_trace(t_wolf *w, double dist, int color);
+void				ft_floor_trace(t_wolf *w);
 
 //char *ft_line_trace(t_wolf *w, char *img, double dist);
 
-char *pixel_put_to_image(t_wolf *w, int x, int y, int color);
-char *pixel_put_to_image_minimap(t_wolf *w, int x, int y, int color);
+char				*pixel_put_to_image(t_wolf *w, int x, int y, int color);
+char				*pixel_put_to_image_minimap(t_wolf *w, int x, int y, int color);
 
-int color_less_dist(int color, int dist);
+int					color_less_dist(int color, int dist);
+int check_wall_color(t_wolf *w);
 
 void				init_view_angles(t_wolf *w);
 void				ray_advances(t_wolf *w);
