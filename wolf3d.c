@@ -101,7 +101,7 @@ void 	ft_wolf(t_wolf *w)
 	mlx_destroy_image(w->mlx, w->imgv_minimap);
 }
 
-void init_wolf_variables(t_wolf *w)
+void 	init_wolf_variables(t_wolf *w)
 {
 	w->angle = 0.0;
 	w->wall_size = WALL_SIZE;
@@ -169,7 +169,7 @@ int		key_press(int keycode, t_wolf *w)
 	return (0);
 }
 
-int key_release(int keycode, t_wolf *w)
+int 	key_release(int keycode, t_wolf *w)
 {
 	if(w)
 	{

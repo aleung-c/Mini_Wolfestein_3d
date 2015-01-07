@@ -72,6 +72,8 @@ typedef struct			s_wolf
 	// tracing
 
 	int trace_y;
+	int x_screen;
+	int y_screen;
 	//int trace_iny;
 
 	// minimap
@@ -110,7 +112,11 @@ int					angle_rev(int angle);
 void fill_square(t_wolf *w, int x, int y, int color);
 
 void ft_trace(t_wolf *w);
-void ft_wall_trace(t_wolf *w, int x_screen, int dist);
+void ft_sky_trace(t_wolf *w, double dist);
+void ft_wall_trace(t_wolf *w, double dist, int color);
+void ft_floor_trace(t_wolf *w);
+
+//char *ft_line_trace(t_wolf *w, char *img, double dist);
 
 char *pixel_put_to_image(t_wolf *w, int x, int y, int color);
 char *pixel_put_to_image_minimap(t_wolf *w, int x, int y, int color);
