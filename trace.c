@@ -26,7 +26,13 @@ void ft_trace(t_wolf *w) // Pour tracer les rayons
 	w->y_screen = 0;
 	w->trace_y = 0;
 
+
+	/*ft_putnbr(w->x);
+	ft_putchar(' ');
+	ft_putnbr(w->y);
+	ft_putchar('\n');*/
  	init_view_angles(w);
+ 	ft_putchar('\n'); //
 	while (w->x_screen != w->wolf_width)
 	{
 		w->x_wall_check = w->x;
@@ -35,14 +41,14 @@ void ft_trace(t_wolf *w) // Pour tracer les rayons
 		ray_advances(w);
 
 		dist = sqrt((w->x_wall_check - w->x) * (w->x_wall_check - w->x) + (w->y_wall_check - w->y) * (w->y_wall_check - w->y));
-		dist = dist * cos(fabs(w->angle - w->angle_min) / 180.0 * M_PI);
+		dist = dist * cos(fabs(angle_check(w->angle - w->angle_min)) / 180.0 * M_PI);
 		//ft_putnbr(dist * sin((int)w->angle_min));
 		//ft_putchar(' ');
 		//dist = dist * sin((int)w->angle_min);
 		//printf("%lf ", dist);
 		color = check_wall_color(w);
-		color = color_less_dist(color, (int)dist / 6);
-
+		//color = color_less_dist(color, (int)dist / 6);
+		w->prev_color = color;
 		//w->img = ft_line_trace(w, w->img, dist);
 		while (w->y_screen < w->wolf_height)
 		{
@@ -100,9 +106,13 @@ void ft_floor_trace(t_wolf *w)
 
 void ray_advances(t_wolf *w)
 {
+	int r;
+
 	while (w->map[(int)w->y_wall_check / 64][(int)w->x_wall_check / 64] == 0) // recup distance to wall
 		{
-			w->x_wall_check = w->x_wall_check + cos((w->angle_min / 180.0) * M_PI) * 0.5; // modifier pour changer escaliers. 
-			w->y_wall_check = w->y_wall_check - sin((w->angle_min / 180.0) * M_PI) * 0.5;
+			w->x_wall_check = w->x_wall_check + cos((w->angle_min / 180.0) * M_PI) * 0.1; // modifier pour changer escaliers. 
+			w->y_wall_check = w->y_wall_check - sin((w->angle_min / 180.0) * M_PI) * 0.1;
+			if (w->x_wall_check == (double)((int)w->x_wall_check / 64) * 64))
+			else if (w->y_wall_check == (double)((int)w->y_wall_check / 64) * 64))
 		}
 }
