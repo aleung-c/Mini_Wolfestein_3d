@@ -53,6 +53,9 @@ typedef struct			s_wolf
 	// Defining coloring variables.
 
 	int color; 
+	int prev_color;
+
+	double dist2;
 
 	//	Defining space view variables.
 

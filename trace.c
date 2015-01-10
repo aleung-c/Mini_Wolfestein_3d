@@ -98,21 +98,65 @@ void ft_wall_trace(t_wolf *w, double dist, int color)
 void ft_floor_trace(t_wolf *w)
 {
 		while (w->trace_y < w->wolf_height)
-			{
-				w->img = pixel_put_to_image(w, w->x_screen, w->trace_y, 0xFFFFFF);
-				w->trace_y++;
-			}
+		{
+			w->img = pixel_put_to_image(w, w->x_screen, w->trace_y, 0xFFFFFF);
+			w->trace_y++;
+		}
 }
 
-void ray_advances(t_wolf *w)
+
+/*void ray_advances(t_wolf *w) // version peu precise sur les coins.
+{
+	while (w->map[(int)w->y_wall_check / 64][(int)w->x_wall_check / 64] == 0)
+	{
+		w->x_wall_check = w->x_wall_check + cos((w->angle_min / 180.0) * M_PI) * 0.1; // modifier pour changer aliasing. 
+		w->y_wall_check = w->y_wall_check - sin((w->angle_min / 180.0) * M_PI) * 0.1;
+	}
+}
+*/
+
+
+void ray_advances(t_wolf *w) // version tres precise de calcul des coins.
 {
 	int r;
+	double x_approx;
+	double y_approx;
 
-	while (w->map[(int)w->y_wall_check / 64][(int)w->x_wall_check / 64] == 0) // recup distance to wall
+	r = 0;
+	while (r == 0)
+	{
+		w->x_wall_check = w->x_wall_check + cos((w->angle_min / 180.0) * M_PI) * 0.1; // modifier pour changer aliasing. 
+		w->y_wall_check = w->y_wall_check - sin((w->angle_min / 180.0) * M_PI) * 0.1;
+		
+		x_approx = (((int)w->x_wall_check / 64) * 64.0);
+		y_approx = (((int)w->y_wall_check / 64) * 64.0);
+
+		if ((w->x_wall_check > x_approx - 0.2) && (w->x_wall_check < x_approx + 0.2))
 		{
-			w->x_wall_check = w->x_wall_check + cos((w->angle_min / 180.0) * M_PI) * 0.1; // modifier pour changer escaliers. 
-			w->y_wall_check = w->y_wall_check - sin((w->angle_min / 180.0) * M_PI) * 0.1;
-			if (w->x_wall_check == (double)((int)w->x_wall_check / 64) * 64))
-			else if (w->y_wall_check == (double)((int)w->y_wall_check / 64) * 64))
+			if (w->x > w->x_wall_check)
+			{
+				if (w->map[(int)w->y_wall_check / 64][(int)w->x_wall_check / 64 - 1] != 0)
+				r = 1;
+			}
+			else
+			{
+				if (w->map[(int)w->y_wall_check / 64][(int)w->x_wall_check / 64] != 0)
+				r = 1;
+			}
 		}
+		else if ((w->y_wall_check > y_approx - 0.2) && (w->y_wall_check < y_approx + 0.2))
+		{
+			if (w->y > w->y_wall_check)
+			{
+				if (w->map[(int)w->y_wall_check / 64 - 1][(int)w->x_wall_check / 64] != 0)
+				r = 1;
+			}
+			else
+			{
+				if (w->map[(int)w->y_wall_check / 64][(int)w->x_wall_check / 64] != 0)
+				r = 1;
+			}
+
+		}
+	}
 }
