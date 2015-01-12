@@ -12,12 +12,22 @@
 
 #include "wolf3d.h"
 
+int pos_tb(double val)
+{
+	int wall_size;
+
+	wall_size = WALL_SIZE;
+
+	return ((int)val  / wall_size);
+
+}
+
 void ft_advance(t_wolf *w)
 {
 	if (w->map[w->y_seg / w->wall_size][w->x_seg / w->wall_size] == 0)
 	{
-		w->x = w->x + cos((w->angle / 180) * M_PI) * 6;
-		w->y = w->y - sin((w->angle / 180) * M_PI) * 6;
+		w->x = w->x + cos((w->angle / 180) * M_PI) * 4;
+		w->y = w->y - sin((w->angle / 180) * M_PI) * 4;
 	}
 }
 
@@ -25,8 +35,8 @@ void ft_backstep(t_wolf *w)
 {
 	if (w->map[w->y_back / w->wall_size][w->x_back / w->wall_size] == 0)
 	{
-		w->x = w->x - cos((w->angle / 180) * M_PI) * 6;
-		w->y = w->y + sin((w->angle / 180) * M_PI) * 6;
+		w->x = w->x - cos((w->angle / 180) * M_PI) * 4;
+		w->y = w->y + sin((w->angle / 180) * M_PI) * 4;
 	}
 }
 

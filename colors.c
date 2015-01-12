@@ -32,6 +32,8 @@ int is_corner(t_wolf *w)
 
 int check_wall_color(t_wolf *w) // marche mal, a revoir.
 {
+	double valx;
+	double valy;
 		/*ft_putnbr((int)w->x_wall_check % 64);
 		ft_putchar(' ');*/
 	
@@ -39,7 +41,7 @@ int check_wall_color(t_wolf *w) // marche mal, a revoir.
 	//	ft_putchar(' ');
 
 
-		/*if (((int)w->x_wall_check % 64) == 0 || ((int)w->x_wall_check % 64) == 63 )  // verif x par rapport a la grille imaginaire de 64.
+	/*	if (((int)w->x_wall_check % 64) == 0 || ((int)w->x_wall_check % 64) == 63 )  // verif x par rapport a la grille imaginaire de 64.
 		{
 			if (!(((int)w->y_wall_check % 64) == 0 || ((int)w->y_wall_check % 64) == 63))
 			{
@@ -59,10 +61,39 @@ int check_wall_color(t_wolf *w) // marche mal, a revoir.
 				return (0x009933); // vert
 			else
 				return (0xCC0033); // rouge
-		}*/
-	if ((fabs(remainder(w->x_wall_check, 64.0) < 0.2)))  // verif x par rapport a la grille imaginaire de 64.
+		} */
+	
+
+	// d'un cote ou de lautre du coin la valeur est plus haute en x ou en y, mais TOUJOURS inferieure a 1.0
+
+	/*if (((int)w->x_wall_check % 64 == 0) || ((int)w->x_wall_check % 64 == 63) || ((int)w->y_wall_check % 64 == 0) || ((int)w->y_wall_check % 64 == 63))
 	{
-		if (!(fabs(remainder(w->y_wall_check, 64.0) < 0.2)))
+		if ((fabs(remainder(w->x_wall_check, 64.0) < 1.0)))  // verif x par rapport a la grille imaginaire de 64.
+		{
+			if (!(fabs(remainder(w->y_wall_check, 64.0) < 1.0)))
+			{
+				if (w->x >= w->x_wall_check)
+				{
+					return (0x0033CC); // bleu
+				}
+				else
+				{
+					return (0xFFCC33); // jaune
+				}
+			}
+		}
+		else if ((fabs(remainder(w->y_wall_check, 64.0) < 1.0))) // idem y.
+		{
+			if (w->y >= w->y_wall_check)
+				return (0x009933); // vert
+			else
+				return (0xCC0033); // rouge
+		}
+	}*/
+
+	if (((int)w->x_wall_check % 64) == 0 || ((int)w->x_wall_check % 64) == 63 )  // verif x par rapport a la grille imaginaire de 64.
+	{
+		if (!(((int)w->y_wall_check % 64) == 0 || ((int)w->y_wall_check % 64) == 63))
 		{
 			if (w->x >= w->x_wall_check)
 			{
@@ -74,13 +105,44 @@ int check_wall_color(t_wolf *w) // marche mal, a revoir.
 			}
 		}
 	}
-	else if ((fabs(remainder(w->y_wall_check, 64.0) < 0.2))) // idem y.
+	else if (((int)w->y_wall_check % 64) == 0 || ((int)w->y_wall_check % 64) == 63) // idem y.
 	{
 		if (w->y >= w->y_wall_check)
 			return (0x009933); // vert
 		else
 			return (0xCC0033); // rouge
 	}
+	valx = fabs(remainder(w->x_wall_check, 64.0));
+	valy = fabs(remainder(w->y_wall_check, 64.0));
+	
+
+	if ((valx < 0.8 && valy < 0.8) && (valx > 0.01 && valy > 0.01))
+	{
+		printf("mod x %f, mod y %f\n", valx, valy);
+		
+		if(valx < valy)
+		{
+			if ((valy - valx) > 0.2)
+			{
+				if (w->x >= w->x_wall_check)
+					return (0x0033CC); // bleu
+				else
+					return (0xFFCC33); // jaune
+			}
+		}
+		else
+		{
+			if ((valx - valy) > 0.2)
+			{
+				if (w->y >= w->y_wall_check)
+					return (0x009933); // vert
+				else
+					return (0xCC0033); // rouge
+			}
+		}
+		//return (0xFFFFFFF);
+	}
+
 	/*if (is_corner(w) == 1)
 	{
 		printf("%lf ", fabs(remainder(w->x_wall_check, 64.0)));

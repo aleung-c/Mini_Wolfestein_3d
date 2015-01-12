@@ -71,7 +71,10 @@ typedef struct			s_wolf
 	double			angle_max_map;
 	double			x_wall_check;
 	double			y_wall_check;
-	
+
+	double 			dist;
+	double 			prev_dist;
+
 	// tracing
 
 	int trace_y;
@@ -113,6 +116,7 @@ double				angle_check(double angle);
 int					angle_rev(int angle);
 void				fill_square(t_wolf *w, int x, int y, int color);
 
+int pos_tb(double val);
 void				ft_trace(t_wolf *w);
 void				ft_sky_trace(t_wolf *w, double dist);
 void				ft_wall_trace(t_wolf *w, double dist, int color);
@@ -124,8 +128,8 @@ char				*pixel_put_to_image(t_wolf *w, int x, int y, int color);
 char				*pixel_put_to_image_minimap(t_wolf *w, int x, int y, int color);
 
 int					color_less_dist(int color, int dist);
-int check_wall_color(t_wolf *w);
-
+int 				check_wall_color(t_wolf *w);
+int is_corner(t_wolf* w);
 void				init_view_angles(t_wolf *w);
 void				ray_advances(t_wolf *w);
 
