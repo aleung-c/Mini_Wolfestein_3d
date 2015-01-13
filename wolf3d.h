@@ -54,7 +54,8 @@ typedef struct			s_wolf
 
 	int color; 
 	int prev_color;
-
+	int prev_color_used;
+	int next_color;
 	double dist2;
 
 	//	Defining space view variables.
@@ -71,9 +72,12 @@ typedef struct			s_wolf
 	double			angle_max_map;
 	double			x_wall_check;
 	double			y_wall_check;
+	double			x_wall_check_2;
+	double			y_wall_check_2;
 
 	double 			dist;
 	double 			prev_dist;
+	double 			next_dist;
 
 	// tracing
 
@@ -117,6 +121,7 @@ int					angle_rev(int angle);
 void				fill_square(t_wolf *w, int x, int y, int color);
 
 int pos_tb(double val);
+int pos_tb_less1(double val);
 void				ft_trace(t_wolf *w);
 void				ft_sky_trace(t_wolf *w, double dist);
 void				ft_wall_trace(t_wolf *w, double dist, int color);
@@ -128,7 +133,11 @@ char				*pixel_put_to_image(t_wolf *w, int x, int y, int color);
 char				*pixel_put_to_image_minimap(t_wolf *w, int x, int y, int color);
 
 int					color_less_dist(int color, int dist);
-int 				check_wall_color(t_wolf *w);
+int 				check_wall_color_simple(t_wolf *w);
+int check_wall_color_modulo(t_wolf *w);
+int check_next_color(t_wolf *w);
+int check_prev_color(t_wolf *w);
+
 int is_corner(t_wolf* w);
 void				init_view_angles(t_wolf *w);
 void				ray_advances(t_wolf *w);

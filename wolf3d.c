@@ -26,8 +26,8 @@ void ft_advance(t_wolf *w)
 {
 	if (w->map[w->y_seg / w->wall_size][w->x_seg / w->wall_size] == 0)
 	{
-		w->x = w->x + cos((w->angle / 180) * M_PI) * 4;
-		w->y = w->y - sin((w->angle / 180) * M_PI) * 4;
+		w->x = w->x + cos((w->angle / 180.0) * M_PI) * 4.0;
+		w->y = w->y - sin((w->angle / 180.0) * M_PI) * 4.0;
 	}
 }
 
@@ -35,8 +35,8 @@ void ft_backstep(t_wolf *w)
 {
 	if (w->map[w->y_back / w->wall_size][w->x_back / w->wall_size] == 0)
 	{
-		w->x = w->x - cos((w->angle / 180) * M_PI) * 4;
-		w->y = w->y + sin((w->angle / 180) * M_PI) * 4;
+		w->x = w->x - cos((w->angle / 180.0) * M_PI) * 4.0;
+		w->y = w->y + sin((w->angle / 180.0) * M_PI) * 4.0;
 	}
 }
 
@@ -129,6 +129,8 @@ void 	init_wolf_variables(t_wolf *w)
 	w->left = 0;
 	w->up = 0;
 	w->down = 0;
+
+	w->prev_dist = 0.0;
 }
 
 int		expose_hook(t_wolf *w)
