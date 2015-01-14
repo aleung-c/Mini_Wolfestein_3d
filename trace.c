@@ -6,7 +6,7 @@
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/06 11:16:58 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/01/07 15:32:41 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/01/14 17:23:37 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,13 @@ void ft_trace(t_wolf *w) // Pour tracer les rayons
 	//int y_screen;
 	//double dist;
 	int color;
+	//int *cross;
+
 	//int trace_iny;
 
 	//trace_iny = 0; //
+	
+	
 	color = 0x00CCFF;
 	w->x_screen = 0;
 	w->y_screen = 0;
@@ -43,7 +47,7 @@ void ft_trace(t_wolf *w) // Pour tracer les rayons
 	ft_putchar(' ');
 	ft_putnbr(w->y);
 	ft_putchar('\n');*/
-	w->dist = 0;
+	w->dist = 0.0;
  	init_view_angles(w);
  	ft_putchar('\n'); //
 	while (w->x_screen != w->wolf_width)
@@ -54,6 +58,9 @@ void ft_trace(t_wolf *w) // Pour tracer les rayons
 		ray_advances(w);
 
 		w->dist = sqrt((w->x_wall_check - w->x) * (w->x_wall_check - w->x) + (w->y_wall_check - w->y) * (w->y_wall_check - w->y));
+		w->anglemin2 = w->angle_min;
+		w->next_color = check_next_color(w);
+		w->prev_color = check_prev_color(w);
 		color = check_wall_color_simple(w);
 
 		//printf("%d ", w->next_color); // check next color;
@@ -69,23 +76,57 @@ void ft_trace(t_wolf *w) // Pour tracer les rayons
 		//ft_putchar(' ');
 		w->dist = w->dist * cos(fabs(angle_check(w->angle - w->angle_min)) / 180.0 * M_PI);
 
-		if (color == 268435455)
+		/*if (color == 268435455)
 		{
+			cross = ft_memalloc(4);
+			cross[0] = 0;
+			cross[1] = 0;
+			cross[2] = 0;
+			cross[3] = 0;
 			color = check_wall_color_modulo(w);
 
-			printf("x_wallc %d, y_wallc %d, pos tb[%d][%d] = %d \n", (int)w->x_wall_check, (int)w->y_wall_check, (int)w->y_wall_check / 64, (int)w->x_wall_check / 64, w->map[(int)w->y_wall_check / 64][(int)w->x_wall_check / 64]);
+			//printf("x_wallc %d, y_wallc %d, pos tb[%d][%d] = %d \n", (int)w->x_wall_check, (int)w->y_wall_check, (int)w->y_wall_check / 64, (int)w->x_wall_check / 64, w->map[(int)w->y_wall_check / 64][(int)w->x_wall_check / 64]);
 			//if ((w->map[pos_tb(w->y_wall_check) + 1][pos_tb(w->x_wall_check)] != 0) && ((w->map[pos_tb_less1(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)))
-			if ((w->map[((int)w->y_wall_check + 32) / 64][pos_tb(w->x_wall_check)] != 0) && (w->map[((int)w->y_wall_check - 32) / 64][pos_tb(w->x_wall_check)] != 0))
-				//if ((w->map[((int)w->y_wall_check + 32) / 64][pos_tb(w->x_wall_check)] != 0) && (w->map[((int)w->y_wall_check - 32) / 64][pos_tb(w->x_wall_check)] != 0))
-				{
-				color = w->prev_color_used;
-				}
-			else if ((w->map[pos_tb(w->y_wall_check)][((int)w->x_wall_check + 32) / 64] != 0) && ((w->map[pos_tb(w->y_wall_check)][((int)w->x_wall_check - 32) / 64] != 0)))
-				color = w->prev_color_used;
+			//if ((w->map[((int)w->y_wall_check + 32) / 64][pos_tb(w->x_wall_check)] != 0) && (w->map[((int)w->y_wall_check - 32) / 64][pos_tb(w->x_wall_check)] != 0))
+			//if ((w->map[((int)w->y_wall_check + 32) / 64][pos_tb(w->x_wall_check)] != 0) && (w->map[((int)w->y_wall_check - 32) / 64][pos_tb(w->x_wall_check)] != 0))
+			//{
+			//	color = w->prev_color_used;
+			//}
+			//else if ((w->map[pos_tb(w->y_wall_check)][((int)w->x_wall_check + 32) / 64] != 0) && ((w->map[pos_tb(w->y_wall_check)][((int)w->x_wall_check - 32) / 64] != 0)))
+			//	color = w->prev_color_used;
+
+
+			if (w->map[((int)w->y_wall_check - 32) / 64][((int)w->x_wall_check - 32) / 64] != 0)
+				cross[0] = 1;
+			if (w->map[((int)w->y_wall_check - 32) / 64][((int)w->x_wall_check + 32) / 64] != 0)
+				cross[1] = 1;
+			if (w->map[((int)w->y_wall_check + 32) / 64][((int)w->x_wall_check - 32) / 64] != 0)
+				cross[2] = 1;
+			if (w->map[((int)w->y_wall_check + 32) / 64][((int)w->x_wall_check + 32) / 64] != 0) 
+				cross[3] = 1;
+			if (cross[0] + cross[1] + cross[2] + cross[3] == 2)
+			{
+				if(!((cross[0] == 1 && cross[3] == 1) || (cross[2] == 1 && cross[1] == 1)))
+					color = w->prev_color_used;
+			}
+			w->anglemin2 = w->angle_min;
 			w->next_color = check_next_color(w);
 			w->prev_color = check_prev_color(w);
-			
-		}
+	
+			if (w->next_dist < w->dist) //&& fabs((int)w->next_dist - w->dist) > 5)
+			{
+				color = w->prev_color_used;
+			}
+				if (w->prev_dist > w->dist) //&& fabs((int)w->prev_dist - w->dist) > 5)
+			{
+				color = w->next_color;
+			}
+			//ft_putnbr(cross[0]);
+			//ft_putnbr(cross[1]);
+			//ft_putnbr(cross[2]);
+			//ft_putnbr(cross[3]);
+			free(cross);
+		}*/
 		w->prev_color_used = color;
 
 		w->prev_dist = w->dist;
@@ -162,22 +203,57 @@ void ray_advances(t_wolf *w) // version tres precise de calcul des coins. Foncti
 	r = 0;
 	while (r == 0)
 	{
-		w->x_wall_check = w->x_wall_check + cos((w->angle_min / 180.0) * M_PI) * 0.4; // modifier pour changer aliasing. Pour moins de cas problematiques, garder multiple de 2. 
-		w->y_wall_check = w->y_wall_check - sin((w->angle_min / 180.0) * M_PI) * 0.4;
-		
+		w->x_wall_check = w->x_wall_check + cos((w->angle_min / 180.0) * M_PI) * 0.05; // modifier pour changer aliasing. Pour moins de cas problematiques, garder multiple de 2. 
+		w->y_wall_check = w->y_wall_check - sin((w->angle_min / 180.0) * M_PI) * 0.05;
 		// Peut etre a modifier pour faire differential analysis. Pas difficile a faire.
-		if (((int)w->x_wall_check % 64 == 0) || ((int)w->x_wall_check % 64 == 63) || ((int)w->y_wall_check % 64 == 0) || ((int)w->y_wall_check % 64 == 63))
+		if ((((int)w->x_wall_check % 64 == 0) || ((int)w->x_wall_check % 64 == 63)) ||
+			(((int)w->y_wall_check % 64 == 0) || ((int)w->y_wall_check % 64 == 63)))
 		{
-			if ((fabs(remainder(w->x_wall_check, 64.0)) < 0.4))
+			if (((fabs(remainder(w->x_wall_check, 64.0)) < 0.05)) &&
+				((fabs(remainder(w->y_wall_check, 64.0)) < 0.05)))
 			{
 				if (w->map[pos_tb(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)
+				{
+					w->touch = 0;
 					r = 1;
+				}
 			}
-			else if ((fabs(remainder(w->y_wall_check, 64.0)) < 0.4))
+			else if ((fabs(remainder(w->x_wall_check, 64.0)) < 0.05))
 			{
 				if (w->map[pos_tb(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)
+				{
+					w->touch = 1;
 					r = 1;
+				}
+			}
+			else if ((fabs(remainder(w->y_wall_check, 64.0)) < 0.05))
+			{
+				if (w->map[pos_tb(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)
+				{
+					w->touch = 2;
+					r = 1;
+				}
 			}
 		}
+//		else if (((int)w->y_wall_check % 64 == 0) || ((int)w->y_wall_check % 64 == 63))
+/*		{
+			if ((fabs(remainder(w->x_wall_check, 64.0)) < 0.05))
+			{
+				if (w->map[pos_tb(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)
+				{
+					w->touch = 2;
+					r = 1;
+				}
+			}
+//			else if ((fabs(remainder(w->y_wall_check, 64.0)) < 0.4))
+//			{
+//				if (w->map[pos_tb(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)
+//				{
+//					w->touch = 2;
+//					r = 1;
+//				}
+//			}
+//		}
+}*/
 	}
 }

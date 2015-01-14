@@ -6,7 +6,7 @@
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/18 13:44:53 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/01/07 15:32:52 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/01/14 16:58:21 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct			s_wolf
 	int prev_color_used;
 	int next_color;
 	double dist2;
+	int		touch;
 
 	//	Defining space view variables.
 
@@ -79,6 +80,7 @@ typedef struct			s_wolf
 	double 			prev_dist;
 	double 			next_dist;
 
+	double			anglemin2;
 	// tracing
 
 	int trace_y;

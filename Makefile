@@ -6,7 +6,7 @@
 #    By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/12/18 14:05:55 by aleung-c          #+#    #+#              #
-#    Updated: 2015/01/06 11:26:37 by aleung-c         ###   ########.fr        #
+#    Updated: 2015/01/14 13:43:12 by aleung-c         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -23,9 +23,9 @@ LIB = ./libft/
 MLX = -L/usr/X11/lib -lXext -lX11 -lmlx -I/opt/X11/include
 
 $(NAME) :
-	gcc -c -Wall -Werror -Wextra $(SRC) $(MLX)
+	gcc -Ofast -c -Wall -Werror -Wextra $(SRC) $(MLX)
 	cd $(LIB) ; make re
-	gcc -o $(NAME) $(HEADER) -Wall -Werror -Wextra $(SRCO) -L./libft/ -lft $(MLX)
+	gcc -Ofast -o $(NAME) $(HEADER) -Wall -Werror -Wextra $(SRCO) -L./libft/ -lft $(MLX)
 
 clean :
 	rm -rf $(SRCO)
