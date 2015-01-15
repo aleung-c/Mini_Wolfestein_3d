@@ -23,6 +23,8 @@
 # define WOLF_W 800
 # define WOLF_H 600
 # define WALL_SIZE 64
+# define MMAP_W 700
+# define MMAP_H 720
 
 typedef struct			s_wolf
 {
@@ -86,9 +88,13 @@ typedef struct			s_wolf
 	int trace_y;
 	int x_screen;
 	int y_screen;
+	int trace_sky_size;
+	int trace_wall_size;
 	//int trace_iny;
 
 	// minimap
+	unsigned int minimap_width;
+	unsigned int minimap_height;
 	void			*imgv_minimap;
 	char			*img_minimap;
 	int				bpp_minimap;
@@ -120,13 +126,13 @@ void				ft_upview_map(t_wolf *w);
 void				ft_upview_map_vfield(t_wolf *w);
 double				angle_check(double angle);
 int					angle_rev(int angle);
-void				fill_square(t_wolf *w, int x, int y, int color);
+void fill_square(t_wolf *w, unsigned int x, unsigned int y, int color);
 
 int pos_tb(double val);
 int pos_tb_less1(double val);
 void				ft_trace(t_wolf *w);
-void				ft_sky_trace(t_wolf *w, double dist);
-void				ft_wall_trace(t_wolf *w, double dist, int color);
+void				ft_sky_trace(t_wolf *w);
+void				ft_wall_trace(t_wolf *w, int color);
 void				ft_floor_trace(t_wolf *w);
 
 //char *ft_line_trace(t_wolf *w, char *img, double dist);

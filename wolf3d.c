@@ -6,7 +6,7 @@
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/18 13:44:23 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/01/02 17:56:55 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/01/15 16:14:42 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,35 @@ int pos_tb(double val)
 	int wall_size;
 
 	wall_size = WALL_SIZE;
-
 	return ((int)val  / wall_size);
 
 }
 
 void ft_advance(t_wolf *w)
 {
-	if (w->map[w->y_seg / w->wall_size][w->x_seg / w->wall_size] == 0)
+	int next_pos_x;
+	int next_pos_y;
+
+	next_pos_x = w->x + cos((w->angle / 180.0) * M_PI) * 4.0;
+	next_pos_y = w->y - sin((w->angle / 180.0) * M_PI) * 4.0;
+	if (w->map[next_pos_y / w->wall_size][next_pos_x / w->wall_size] == 0)
 	{
-		w->x = w->x + cos((w->angle / 180.0) * M_PI) * 4.0;
-		w->y = w->y - sin((w->angle / 180.0) * M_PI) * 4.0;
+		w->x = next_pos_x;
+		w->y = next_pos_y;
 	}
 }
 
 void ft_backstep(t_wolf *w)
 {
-	if (w->map[w->y_back / w->wall_size][w->x_back / w->wall_size] == 0)
+	int back_pos_x;
+	int back_pos_y;
+
+	back_pos_x = w->x - cos((w->angle / 180.0) * M_PI) * 4.0;
+	back_pos_y = w->y + sin((w->angle / 180.0) * M_PI) * 4.0;
+	if (w->map[back_pos_y / w->wall_size][back_pos_x / w->wall_size] == 0)
 	{
-		w->x = w->x - cos((w->angle / 180.0) * M_PI) * 4.0;
-		w->y = w->y + sin((w->angle / 180.0) * M_PI) * 4.0;
+		w->x = back_pos_x;
+		w->y = back_pos_y;
 	}
 }
 
@@ -82,23 +91,17 @@ void 	ft_wolf(t_wolf *w)
 	{	
 		ft_backstep(w);
 	}
+	w->imgv = mlx_new_image(w->mlx, w->wolf_width, w->wolf_height);
+	w->img = mlx_get_data_addr(w->imgv, &w->bpp, &w->sizeline, &w->endian);
 
-	// les images :
-	w->imgv = mlx_new_image(w->mlx, w->wolf_width, w->wolf_height); // declarer nouvelle image
-	w->img = mlx_get_data_addr(w->imgv, &w->bpp, &w->sizeline, &w->endian); // initialise char* de l'image.
-	// obtenir adresse de la string de l'image avec mlx get data addr.
-	
-	// Pour se deplacer en pixel dans l'image, il faut se deplacer en bits par rapports aux char de
-	// la string, en connaissant la taille de la largeur de l'ecran.
-
-	w->imgv_minimap = mlx_new_image(w->mlx, 700, 720);
+	w->imgv_minimap = mlx_new_image(w->mlx, w->minimap_width, w->minimap_height);
 	w->img_minimap = mlx_get_data_addr(w->imgv_minimap, &w->bpp_minimap, &w->sizeline_minimap, &w->endian_minimap);
 
-	w->angle_rev = angle_rev(w->angle);
+	//w->angle_rev = angle_rev(w->angle);
 	w->x_seg = w->x + cos((w->angle / 180) * M_PI) * 6;
 	w->y_seg = w->y - sin((w->angle / 180) * M_PI) * 6;
-	w->x_back = w->x + cos((w->angle_rev / 180) * M_PI) * 6;
-	w->y_back = w->y - sin((w->angle_rev / 180) * M_PI) * 6;
+	//w->x_back = w->x + cos((w->angle_rev / 180) * M_PI) * 6;
+	//w->y_back = w->y - sin((w->angle_rev / 180) * M_PI) * 6;
 
 	ft_trace(w);
 	mlx_put_image_to_window(w->mlx, w->win, w->imgv, 0, 0);
@@ -115,8 +118,8 @@ void 	init_wolf_variables(t_wolf *w)
 {
 	w->angle = 0.0;
 	w->wall_size = WALL_SIZE;
-	w->y = 5 * w->wall_size;
-	w->x = 5 * w->wall_size;
+	w->y = 1.5 * w->wall_size;
+	w->x = 1.5 * w->wall_size;
 	w->y_seg = w->y;
 	w->x_seg = w->x;
 	w->y_back = w->y;
@@ -125,6 +128,9 @@ void 	init_wolf_variables(t_wolf *w)
 	w->screen_height = SCREEN_H;
 	w->wolf_width = WOLF_W;
 	w->wolf_height = WOLF_H;
+	
+	w->minimap_width = MMAP_W;
+	w->minimap_height = MMAP_H;
 	w->right = 0;
 	w->left = 0;
 	w->up = 0;

@@ -32,7 +32,7 @@ int is_corner(t_wolf *w)
 
 int check_next_color(t_wolf *w)
 {
-	w->anglemin2 -= 1.0;
+	w->anglemin2 -= 100.0 / w->dist;
 	w->x_wall_check_2 = w->x;
 	w->y_wall_check_2 = w->y;
 	while (w->map[pos_tb(w->y_wall_check_2)][pos_tb(w->x_wall_check_2)] == 0)
@@ -65,7 +65,7 @@ int check_next_color(t_wolf *w)
 
 int check_prev_color(t_wolf *w)
 {
-	w->anglemin2 += 1.0;
+	w->anglemin2 += 100.0 / w->dist;
 	w->x_wall_check_2 = w->x;
 	w->y_wall_check_2 = w->y;
 	while (w->map[pos_tb(w->y_wall_check_2)][pos_tb(w->x_wall_check_2)] == 0)
@@ -73,7 +73,11 @@ int check_prev_color(t_wolf *w)
 		w->x_wall_check_2 = w->x_wall_check_2 + cos((angle_check(w->anglemin2) / 180.0) * M_PI) * 1.0; // modifier pour changer aliasing. 
 		w->y_wall_check_2 = w->y_wall_check_2 - sin((angle_check(w->anglemin2) / 180.0) * M_PI) * 1.0;
 	}
-		if (((int)w->x_wall_check_2 % 64) == 0 || ((int)w->x_wall_check_2 % 64) == 63 )  // verif x par rapport a la grille imaginaire de 64.
+
+	w->prev_dist = sqrt((w->x_wall_check_2 - w->x) * (w->x_wall_check_2 - w->x) + (w->y_wall_check_2 - w->y) * (w->y_wall_check_2 - w->y));
+	w->prev_dist = w->prev_dist * cos(fabs(angle_check(w->angle - (w->anglemin2))) / 180.0 * M_PI);
+
+	if (((int)w->x_wall_check_2 % 64) == 0 || ((int)w->x_wall_check_2 % 64) == 63 )  // verif x par rapport a la grille imaginaire de 64.
 	{
 		if (!(((int)w->y_wall_check_2 % 64) == 0 || ((int)w->y_wall_check_2 % 64) == 63))
 		{
@@ -140,7 +144,7 @@ int check_wall_color_simple(t_wolf *w) //determine couleur de maniere simple san
 //	{
 	if (w->touch == 0)
 	{
-		if (w->touch == 0 && fabs((int)w->prev_dist - (int)w->dist) > 5)
+		if (w->touch == 0 && fabs((int)w->prev_dist - (int)w->dist) > 20)
 			return (w->next_color);
 		else
 			return (w->prev_color_used);

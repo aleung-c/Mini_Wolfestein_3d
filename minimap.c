@@ -26,11 +26,11 @@ void ft_upview_map(t_wolf *w)
 	{
 		while (j < w->size_l[l])
 		{
-			if(w->map[i][j] == 1)
+			if ((w->map[i][j] == 1 && (j * w->wall_size) < w->minimap_width) && (i * w->wall_size) < w->minimap_height)
 			{
 				fill_square(w, j * w->wall_size, i * w->wall_size, 0xC8C8C8);
 			}
-			else
+			else if ((j * w->wall_size) < w->minimap_width && (i * w->wall_size) < w->minimap_height)
 			{
 				w->img_minimap = pixel_put_to_image_minimap(w, j * w->wall_size, i * w->wall_size, 0xFFFFFF);
 				fill_square(w, j * w->wall_size, i * w->wall_size, 0x000000);
@@ -46,16 +46,16 @@ void ft_upview_map(t_wolf *w)
 	}
 }
 
-void fill_square(t_wolf *w, int x, int y, int color)
+void fill_square(t_wolf *w, unsigned int x, unsigned int y, int color)
 {
 	int size_y;
 	int size_x;
 
 	size_y = w->wall_size;
 	size_x = w->wall_size;
-	while (size_y)
+	while (size_y && y < w->minimap_height)
 	{
-		while (size_x)
+		while (size_x && x < w->minimap_width)
 		{
 			w->img_minimap = pixel_put_to_image_minimap(w, x, y, color);
 			size_x--;
@@ -73,23 +73,23 @@ void ft_upview_map_vfield(t_wolf *w)
 	int color;
 
 	color = 0x00CCFF;
-
 	//mlx_pixel_put(w->mlx, w->win, w->x + 910, w->y, 0xFFFFFFF);
 	w->img_minimap = pixel_put_to_image_minimap(w, w->x, w->y, 0xFFFFFF);
 	//mlx_pixel_put(w->mlx, w->win, w->x_seg + 910, w->y_seg, 0xFF0000);
 	w->img_minimap = pixel_put_to_image_minimap(w, w->x_seg, w->y_seg, 0xFF0000);
 	//mlx_pixel_put(w->mlx, w->win, w->x_back + 910, w->y_back, 0x3333FF);
-	w->img_minimap = pixel_put_to_image_minimap(w, w->x_back, w->y_back, 0x0000CC);
+	//w->img_minimap = pixel_put_to_image_minimap(w, w->x_back, w->y_back, 0x0000CC);
 
-	w->angle_min_map = angle_check(w->angle + (60.0 / 2.0));
-	w->angle_max_map = angle_check(w->angle - (60.0 / 2.0));
+	w->angle_min_map = angle_check(w->angle + 30.0);
+	w->angle_max_map = angle_check(w->angle - 30.0);
 
 	w->x_wall_check = w->x;
 	w->y_wall_check = w->y;
 
 	while (w->angle_min_map != w->angle_max_map)
 	{
-		while (w->map[(int)w->y_wall_check / w->wall_size][(int)w->x_wall_check / w->wall_size] != 1)
+		while ((w->map[(int)w->y_wall_check / w->wall_size][(int)w->x_wall_check / w->wall_size] != 1) \
+			&& (w->x_wall_check < w->minimap_width && w->y_wall_check < w->minimap_height))
 		{
 			//mlx_pixel_put(w->mlx, w->win, w->x_wall_check + 910, w->y_wall_check, color);
 			w->img_minimap = pixel_put_to_image_minimap(w, w->x_wall_check, w->y_wall_check, 0x00CC33);

@@ -6,7 +6,7 @@
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/17 10:14:51 by aleung-c          #+#    #+#             */
-/*   Updated: 2014/12/17 10:46:35 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/01/15 11:20:37 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int				ft_measure_map(char *arg, t_axis *axis)
 	while (get_next_line(fd1, &line))
 		i++;
 	axis->size_y = i;
-	axis->size_l = (unsigned int *)malloc(sizeof(int) * i);
+	if(!(axis->size_l = (unsigned int *)malloc(sizeof(int) * i)))
+		return (NULL);
 	while (get_next_line(fd2, &line))
 	{
 		axis->size_l[j] = ft_count_values(line, ' ');

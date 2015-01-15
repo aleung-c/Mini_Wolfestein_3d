@@ -6,7 +6,7 @@
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 13:21:39 by aleung-c          #+#    #+#             */
-/*   Updated: 2014/12/17 10:41:17 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/01/15 12:48:31 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int		**ft_create_int_map(char *arg, t_wolf w)
 	tb = ft_create_char_map(arg, w);
 	while (tb[y])
 	{
-		map[y] = (int *)malloc(sizeof(int) * w.size_l[l]);
+		if(!(map[y] = (int *)malloc(sizeof(int) * w.size_l[l])))
+			return (NULL);
 		while (tb[y][x])
 		{
 			map[y][x] = ft_atoi(tb[y][x]);
@@ -76,6 +77,7 @@ char	***ft_create_char_map(char *arg, t_wolf w)
 		i++;
 	}
 	tb[i] = '\0';
+	free(line);
 	return (tb);
 }
 
@@ -119,7 +121,8 @@ int				ft_measure_map(char *arg, t_wolf *w)
 	while (get_next_line(fd1, &line))
 		i++;
 	w->size_y = i;
-	w->size_l = (unsigned int *)malloc(sizeof(int) * i);
+	if(!(w->size_l = (unsigned int *)malloc(sizeof(int) * i)))
+		return (-1);
 	while (get_next_line(fd2, &line))
 	{
 		w->size_l[j] = ft_count_values(line, ' ');

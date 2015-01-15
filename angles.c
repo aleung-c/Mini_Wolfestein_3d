@@ -14,10 +14,10 @@
 
 double	angle_check(double angle)
 {
-	if (angle > 360)
-		angle -= 360;
-	if (angle < 0)
-		angle += 360;
+	if (angle > 360.0)
+		angle -= 360.0;
+	if (angle < 0.0)
+		angle += 360.0;
 	return (angle);
 }
 
@@ -25,16 +25,16 @@ int		angle_rev(int angle)
 {
 	int angle_rev;
 
-	angle_rev = angle + 180;
-	if (angle_rev > 360)
+	angle_rev = angle + 180.0;
+	if (angle_rev > 360.0)
 	{
-		angle_rev = angle_rev - 360;
+		angle_rev = angle_rev - 360.0;
 	}
 	return (angle_rev);
 }
 
 void init_view_angles(t_wolf *w)
 {
-	w->angle_min = angle_check(w->angle + 30);
-	w->angle_max = angle_check(w->angle - 30);
+	w->angle_min = angle_check(w->angle + 30.0);
+	w->angle_max = angle_check(w->angle - 30.0);
 }

@@ -6,7 +6,7 @@
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/06 11:16:58 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/01/14 17:23:37 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/01/15 13:15:07 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int pos_tb_less1(double val)
 
 	wall_size = WALL_SIZE;
 
-	ret = ((int)val  / wall_size) - 1;
+	ret = ((int)val / wall_size) - 1;
 	if (ret < 0)
 		return (0);
 	return (ret);
@@ -27,29 +27,13 @@ int pos_tb_less1(double val)
 
 void ft_trace(t_wolf *w) // Pour tracer les rayons
 {
-	//int x_screen;
-	//int y_screen;
-	//double dist;
 	int color;
-	//int *cross;
 
-	//int trace_iny;
-
-	//trace_iny = 0; //
-	
-	
-	color = 0x00CCFF;
 	w->x_screen = 0;
 	w->y_screen = 0;
 	w->trace_y = 0;
-
-	/*ft_putnbr(w->x);
-	ft_putchar(' ');
-	ft_putnbr(w->y);
-	ft_putchar('\n');*/
 	w->dist = 0.0;
  	init_view_angles(w);
- 	ft_putchar('\n'); //
 	while (w->x_screen != w->wolf_width)
 	{
 		w->x_wall_check = w->x;
@@ -58,86 +42,24 @@ void ft_trace(t_wolf *w) // Pour tracer les rayons
 		ray_advances(w);
 
 		w->dist = sqrt((w->x_wall_check - w->x) * (w->x_wall_check - w->x) + (w->y_wall_check - w->y) * (w->y_wall_check - w->y));
+		w->dist = w->dist * cos(fabs(angle_check(w->angle - w->angle_min)) / 180.0 * M_PI);
 		w->anglemin2 = w->angle_min;
 		w->next_color = check_next_color(w);
+		w->anglemin2 = w->angle_min;
 		w->prev_color = check_prev_color(w);
 		color = check_wall_color_simple(w);
 
-		//printf("%d ", w->next_color); // check next color;
-
-		//ft_putnbr(dist * sin((int)w->angle_min));
-		//ft_putchar(' ');
-		//dist = dist * sin((int)w->angle_min);
-		//printf("%lf ", dist);
-
-		//color = color_less_dist(color, (int)dist / 6); // pour assombrir avec la distance, a revoir.
-
-		//ft_putnbr(color);
-		//ft_putchar(' ');
-		w->dist = w->dist * cos(fabs(angle_check(w->angle - w->angle_min)) / 180.0 * M_PI);
-
-		/*if (color == 268435455)
-		{
-			cross = ft_memalloc(4);
-			cross[0] = 0;
-			cross[1] = 0;
-			cross[2] = 0;
-			cross[3] = 0;
-			color = check_wall_color_modulo(w);
-
-			//printf("x_wallc %d, y_wallc %d, pos tb[%d][%d] = %d \n", (int)w->x_wall_check, (int)w->y_wall_check, (int)w->y_wall_check / 64, (int)w->x_wall_check / 64, w->map[(int)w->y_wall_check / 64][(int)w->x_wall_check / 64]);
-			//if ((w->map[pos_tb(w->y_wall_check) + 1][pos_tb(w->x_wall_check)] != 0) && ((w->map[pos_tb_less1(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)))
-			//if ((w->map[((int)w->y_wall_check + 32) / 64][pos_tb(w->x_wall_check)] != 0) && (w->map[((int)w->y_wall_check - 32) / 64][pos_tb(w->x_wall_check)] != 0))
-			//if ((w->map[((int)w->y_wall_check + 32) / 64][pos_tb(w->x_wall_check)] != 0) && (w->map[((int)w->y_wall_check - 32) / 64][pos_tb(w->x_wall_check)] != 0))
-			//{
-			//	color = w->prev_color_used;
-			//}
-			//else if ((w->map[pos_tb(w->y_wall_check)][((int)w->x_wall_check + 32) / 64] != 0) && ((w->map[pos_tb(w->y_wall_check)][((int)w->x_wall_check - 32) / 64] != 0)))
-			//	color = w->prev_color_used;
-
-
-			if (w->map[((int)w->y_wall_check - 32) / 64][((int)w->x_wall_check - 32) / 64] != 0)
-				cross[0] = 1;
-			if (w->map[((int)w->y_wall_check - 32) / 64][((int)w->x_wall_check + 32) / 64] != 0)
-				cross[1] = 1;
-			if (w->map[((int)w->y_wall_check + 32) / 64][((int)w->x_wall_check - 32) / 64] != 0)
-				cross[2] = 1;
-			if (w->map[((int)w->y_wall_check + 32) / 64][((int)w->x_wall_check + 32) / 64] != 0) 
-				cross[3] = 1;
-			if (cross[0] + cross[1] + cross[2] + cross[3] == 2)
-			{
-				if(!((cross[0] == 1 && cross[3] == 1) || (cross[2] == 1 && cross[1] == 1)))
-					color = w->prev_color_used;
-			}
-			w->anglemin2 = w->angle_min;
-			w->next_color = check_next_color(w);
-			w->prev_color = check_prev_color(w);
-	
-			if (w->next_dist < w->dist) //&& fabs((int)w->next_dist - w->dist) > 5)
-			{
-				color = w->prev_color_used;
-			}
-				if (w->prev_dist > w->dist) //&& fabs((int)w->prev_dist - w->dist) > 5)
-			{
-				color = w->next_color;
-			}
-			//ft_putnbr(cross[0]);
-			//ft_putnbr(cross[1]);
-			//ft_putnbr(cross[2]);
-			//ft_putnbr(cross[3]);
-			free(cross);
-		}*/
 		w->prev_color_used = color;
-
+		//color = color_less_dist(color, w->dist);
 		w->prev_dist = w->dist;
-		// w->img = ft_line_trace(w, w->img, dist);
-		// distance correction for lens.
+
+		w->trace_wall_size = (w->wall_size / w->dist) * 290;
 		while (w->y_screen < w->wolf_height)
 		{
 			// ciel
-			ft_sky_trace(w, w->dist);
+			ft_sky_trace(w);
 			// mur
-			ft_wall_trace(w, w->dist, color);
+			ft_wall_trace(w, color);
 			// sol
 			ft_floor_trace(w);
 			w->y_screen++;
@@ -148,27 +70,27 @@ void ft_trace(t_wolf *w) // Pour tracer les rayons
 		w->trace_y = 0;
 		//trace_iny = 0;
 		w->y_screen = 0;
-		color = 0x00FF00;
 		w->angle_min = angle_check(w->angle_min -= 0.075); //0.075
 		w->x_screen++;
 	}
 }
 
-void ft_sky_trace(t_wolf *w, double dist)
+void ft_sky_trace(t_wolf *w)
 {
-	while (w->trace_y < ((w->wolf_height) - (w->wall_size / dist) * 290) / 2)
+	w->trace_sky_size = (w->wolf_height - w->trace_wall_size) / 2;
+	while (w->trace_y < w->trace_sky_size)
 	{
 		w->img = pixel_put_to_image(w, w->x_screen, w->trace_y, 0x00CCFF);
 		w->trace_y++;
 	}
 }
 
-void ft_wall_trace(t_wolf *w, double dist, int color)
+void ft_wall_trace(t_wolf *w, int color)
 {
 	int trace_iny;
 
 	trace_iny = 0;
-	while (trace_iny < (w->wall_size / dist) * 290 && w->trace_y < w->wolf_height)
+	while (trace_iny < w->trace_wall_size && w->trace_y < w->wolf_height)
 	{
 		//mlx_pixel_put(w->mlx, w->win, x_screen, trace_y + 200, 0x00CCFF);
 		w->img = pixel_put_to_image(w, w->x_screen, w->trace_y, color);
@@ -203,14 +125,14 @@ void ray_advances(t_wolf *w) // version tres precise de calcul des coins. Foncti
 	r = 0;
 	while (r == 0)
 	{
-		w->x_wall_check = w->x_wall_check + cos((w->angle_min / 180.0) * M_PI) * 0.05; // modifier pour changer aliasing. Pour moins de cas problematiques, garder multiple de 2. 
-		w->y_wall_check = w->y_wall_check - sin((w->angle_min / 180.0) * M_PI) * 0.05;
+		w->x_wall_check = w->x_wall_check + cos((w->angle_min / 180.0) * M_PI) * 0.1; // modifier pour changer aliasing. Pour moins de cas problematiques, garder multiple de 2. 
+		w->y_wall_check = w->y_wall_check - sin((w->angle_min / 180.0) * M_PI) * 0.1;
 		// Peut etre a modifier pour faire differential analysis. Pas difficile a faire.
 		if ((((int)w->x_wall_check % 64 == 0) || ((int)w->x_wall_check % 64 == 63)) ||
 			(((int)w->y_wall_check % 64 == 0) || ((int)w->y_wall_check % 64 == 63)))
 		{
-			if (((fabs(remainder(w->x_wall_check, 64.0)) < 0.05)) &&
-				((fabs(remainder(w->y_wall_check, 64.0)) < 0.05)))
+			if (((fabs(remainder(w->x_wall_check, 64.0)) < 0.1)) &&
+				((fabs(remainder(w->y_wall_check, 64.0)) < 0.1)))
 			{
 				if (w->map[pos_tb(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)
 				{
@@ -218,7 +140,7 @@ void ray_advances(t_wolf *w) // version tres precise de calcul des coins. Foncti
 					r = 1;
 				}
 			}
-			else if ((fabs(remainder(w->x_wall_check, 64.0)) < 0.05))
+			else if ((fabs(remainder(w->x_wall_check, 64.0)) < 0.1))
 			{
 				if (w->map[pos_tb(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)
 				{
@@ -226,7 +148,7 @@ void ray_advances(t_wolf *w) // version tres precise de calcul des coins. Foncti
 					r = 1;
 				}
 			}
-			else if ((fabs(remainder(w->y_wall_check, 64.0)) < 0.05))
+			else if ((fabs(remainder(w->y_wall_check, 64.0)) < 0.1))
 			{
 				if (w->map[pos_tb(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)
 				{
@@ -235,25 +157,5 @@ void ray_advances(t_wolf *w) // version tres precise de calcul des coins. Foncti
 				}
 			}
 		}
-//		else if (((int)w->y_wall_check % 64 == 0) || ((int)w->y_wall_check % 64 == 63))
-/*		{
-			if ((fabs(remainder(w->x_wall_check, 64.0)) < 0.05))
-			{
-				if (w->map[pos_tb(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)
-				{
-					w->touch = 2;
-					r = 1;
-				}
-			}
-//			else if ((fabs(remainder(w->y_wall_check, 64.0)) < 0.4))
-//			{
-//				if (w->map[pos_tb(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)
-//				{
-//					w->touch = 2;
-//					r = 1;
-//				}
-//			}
-//		}
-}*/
 	}
 }
