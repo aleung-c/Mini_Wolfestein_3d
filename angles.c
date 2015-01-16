@@ -32,9 +32,3 @@ int		angle_rev(int angle)
 	}
 	return (angle_rev);
 }
-
-void init_view_angles(t_wolf *w)
-{
-	w->angle_min = angle_check(w->angle + 30.0);
-	w->angle_max = angle_check(w->angle - 30.0);
-}

@@ -6,7 +6,7 @@
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 13:21:39 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/01/15 12:48:31 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/01/16 12:55:54 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int				ft_measure_map(char *arg, t_wolf *w)
 	while (get_next_line(fd1, &line))
 		i++;
 	w->size_y = i;
-	if(!(w->size_l = (unsigned int *)malloc(sizeof(int) * i)))
+	if(!(w->size_l = (int *)malloc(sizeof(int) * i)))
 		return (-1);
 	while (get_next_line(fd2, &line))
 	{

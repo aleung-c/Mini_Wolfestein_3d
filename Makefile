@@ -6,7 +6,7 @@
 #    By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/12/18 14:05:55 by aleung-c          #+#    #+#              #
-#    Updated: 2015/01/15 13:15:45 by aleung-c         ###   ########.fr        #
+#    Updated: 2015/01/16 16:26:17 by aleung-c         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -14,7 +14,7 @@ NAME = wolf3d
 
 HEADER = wolf3d.h
 
-SRC = wolf3d.c create_map.c colors.c angles.c minimap.c images.c trace.c
+SRC = wolf3d.c create_map.c colors.c angles.c minimap.c images.c trace.c keys.c
 
 SRCO = $(SRC:.c=.o)
 
