@@ -6,7 +6,7 @@
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/18 13:44:53 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/01/16 16:53:39 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/01/16 17:21:08 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,9 @@ int					check_next_color(t_wolf *w);
 int					check_prev_color(t_wolf *w);
 int					check_side_color_x(t_wolf *w);
 int					check_side_color_y(t_wolf *w);
-
+int					check_ray_map_pos_xy(t_wolf *w, int dist_adv);
+int check_ray_map_pos_x(t_wolf *w, int dist_adv);
+int check_ray_map_pos_y(t_wolf *w, int dist_adv);
 int					is_corner(t_wolf* w);
 void				ray_advances(t_wolf *w);
 

@@ -119,5 +119,3 @@ int check_wall_color_simple(t_wolf *w) //determine couleur de maniere simple san
 	}
 	return (0xFFFFFF);
 }
-
-
