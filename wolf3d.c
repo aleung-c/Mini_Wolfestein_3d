@@ -75,12 +75,21 @@ void 	init_wolf_variables(t_wolf *w)
 	w->screen_height = SCREEN_H;
 	w->wolf_width = WOLF_W;
 	w->wolf_height = WOLF_H;
+<<<<<<< HEAD
 
 	w->minimap_wall_size = 50 -  w->size_y;
 	w->minimap_width = MMAP_W;
 	w->minimap_height = MMAP_H;
 	//w->charpos_x = 0;
 	//w->charpos_y = 0;
+=======
+	
+	w->minimap_wall_size = 50 -  w->size_y;
+	w->minimap_width = MMAP_W;
+	w->minimap_height = MMAP_H;
+	w->charpos_x = 0;
+	w->charpos_y = 0;
+>>>>>>> 29301d8802db52516fab8a0089c6c263a7321faf
 
 	w->right = 0;
 	w->left = 0;

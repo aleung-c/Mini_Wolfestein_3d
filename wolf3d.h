@@ -6,7 +6,11 @@
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/18 13:44:53 by aleung-c          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2015/01/17 15:31:39 by aleung-c         ###   ########.fr       */
+=======
+/*   Updated: 2015/01/16 17:21:08 by aleung-c         ###   ########.fr       */
+>>>>>>> 29301d8802db52516fab8a0089c6c263a7321faf
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +98,8 @@ typedef struct			s_wolf
 	int				bpp_minimap;
 	int				sizeline_minimap;
 	int				endian_minimap;
+	int				charpos_x;
+	int				charpos_y;
 
 	// Defining screen.
 
@@ -150,7 +156,15 @@ int 				check_wall_color_simple(t_wolf *w);
 int					check_wall_color_modulo(t_wolf *w);
 int					check_next_color(t_wolf *w);
 int					check_prev_color(t_wolf *w);
+<<<<<<< HEAD
 
+=======
+int					check_side_color_x(t_wolf *w);
+int					check_side_color_y(t_wolf *w);
+int					check_ray_map_pos_xy(t_wolf *w, int dist_adv);
+int check_ray_map_pos_x(t_wolf *w, int dist_adv);
+int check_ray_map_pos_y(t_wolf *w, int dist_adv);
+>>>>>>> 29301d8802db52516fab8a0089c6c263a7321faf
 int					is_corner(t_wolf* w);
 void				ray_advances(t_wolf *w);
 

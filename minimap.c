@@ -25,6 +25,7 @@ void ft_upview_map(t_wolf *w)
 	{
 		while (j < w->size_l[l])
 		{
+<<<<<<< HEAD
 			if (w->map[i][j] == 1 && (((j * w->minimap_wall_size)) < w->minimap_width) && (((i * w->minimap_wall_size)) < w->minimap_height))
 				fill_square(w, ((j * w->minimap_wall_size)), ((i * w->minimap_wall_size)), 0xC8C8C8);
 			else if (((j * w->minimap_wall_size)) < w->minimap_width && ((i * w->minimap_wall_size)) < w->minimap_height)
@@ -32,6 +33,17 @@ void ft_upview_map(t_wolf *w)
 				w->img_minimap = pixel_put_to_image_minimap(w, (j * w->minimap_wall_size), (i * w->minimap_wall_size), 0x000000);
 				fill_square(w, (j * w->minimap_wall_size), (i * w->minimap_wall_size), 0x000000);
 			}
+=======
+			if (w->map[i][j] == 1 && (((j * w->minimap_wall_size) - w->charpos_x) < w->minimap_width) && (((i * w->minimap_wall_size) - w->charpos_y) < w->minimap_height))
+			{
+				fill_square(w, ((j * w->minimap_wall_size) - w->charpos_x), ((i * w->minimap_wall_size) - w->charpos_y), 0xC8C8C8);
+			}
+			else if (((j * w->minimap_wall_size) - w->charpos_x) < w->minimap_width && ((i * w->minimap_wall_size) - w->charpos_y) < w->minimap_height)
+			{
+				w->img_minimap = pixel_put_to_image_minimap(w, (j * w->minimap_wall_size) - w->charpos_x, (i * w->minimap_wall_size) - w->charpos_y, 0x000000);
+				fill_square(w, (j * w->minimap_wall_size) - w->charpos_x, (i * w->minimap_wall_size) - w->charpos_y, 0x000000);
+			}
+>>>>>>> 29301d8802db52516fab8a0089c6c263a7321faf
 			j++;
 		}
 		l++;
