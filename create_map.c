@@ -6,7 +6,7 @@
 /*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 13:21:39 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/01/15 12:48:31 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/01/17 14:52:53 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int		**ft_create_int_map(char *arg, t_wolf w)
 		y++;
 		l++;
 	}
-	w.map = map;
+//	free(tb[0]);
+	//w.map = map;
 	return (map);
 }
 
@@ -77,6 +78,7 @@ char	***ft_create_char_map(char *arg, t_wolf w)
 		i++;
 	}
 	tb[i] = '\0';
+	close(fd2);
 	free(line);
 	return (tb);
 }
@@ -108,7 +110,7 @@ unsigned int	ft_count_values(char *str, int c)
 int				ft_measure_map(char *arg, t_wolf *w)
 {
 	int				fd1;
-	int				fd2;
+	//int				fd2;
 	char			*line;
 	unsigned int	i;
 	unsigned int	j;
@@ -117,17 +119,25 @@ int				ft_measure_map(char *arg, t_wolf *w)
 	j = 0;
 	if ((fd1 = open(arg, O_RDONLY)) == -1)
 		return (-1);
-	fd2 = open(arg, O_RDONLY);
+
+	//fd2 = open(arg, O_RDONLY);
 	while (get_next_line(fd1, &line))
 		i++;
 	w->size_y = i;
-	if(!(w->size_l = (unsigned int *)malloc(sizeof(int) * i)))
+	if(!(w->size_l = (int *)malloc(sizeof(int) * i)))
 		return (-1);
-	while (get_next_line(fd2, &line))
+	close(fd1);
+	if ((fd1 = open(arg, O_RDONLY)) == -1)
+		return (-1);
+
+	while (get_next_line(fd1, &line))
 	{
 		w->size_l[j] = ft_count_values(line, ' ');
 		j++;
 	}
+	close(fd1);
+	//close(fd2);
+	free(line);
 	if (w->size_y == 0)
 		return (-2);
 	return (0);

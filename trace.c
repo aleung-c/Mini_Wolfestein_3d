@@ -12,47 +12,33 @@
 
 #include "wolf3d.h"
 
-int pos_tb_less1(double val)
+void init_tracing(t_wolf *w)
 {
-	int wall_size;
-	int ret;
+	w->x_screen = 0;
+	w->y_screen = 0;
+	w->trace_y = 0;
+	w->dist = 0.0;
 
-	wall_size = WALL_SIZE;
-
-	ret = ((int)val / wall_size) - 1;
-	if (ret < 0)
-		return (0);
-	return (ret);
+	w->angle_min = angle_check(w->angle + 30.0);
+	w->angle_max = angle_check(w->angle - 30.0);
 }
 
 void ft_trace(t_wolf *w) // Pour tracer les rayons
 {
 	int color;
 
-	w->x_screen = 0;
-	w->y_screen = 0;
-	w->trace_y = 0;
-	w->dist = 0.0;
- 	init_view_angles(w);
+	color = 0x000000;
+	
+ 	init_tracing(w);
 	while (w->x_screen != w->wolf_width)
 	{
 		w->x_wall_check = w->x;
 		w->y_wall_check = w->y;
-
 		ray_advances(w);
-
 		w->dist = sqrt((w->x_wall_check - w->x) * (w->x_wall_check - w->x) + (w->y_wall_check - w->y) * (w->y_wall_check - w->y));
 		w->dist = w->dist * cos(fabs(angle_check(w->angle - w->angle_min)) / 180.0 * M_PI);
-		w->anglemin2 = w->angle_min;
-		w->next_color = check_next_color(w);
-		w->anglemin2 = w->angle_min;
-		w->prev_color = check_prev_color(w);
-		color = check_wall_color_simple(w);
-
-		w->prev_color_used = color;
-		//color = color_less_dist(color, w->dist);
+		color = init_check_nxt_color(w, color);
 		w->prev_dist = w->dist;
-
 		w->trace_wall_size = (w->wall_size / w->dist) * 290;
 		while (w->y_screen < w->wolf_height)
 		{
@@ -61,14 +47,10 @@ void ft_trace(t_wolf *w) // Pour tracer les rayons
 			// mur
 			ft_wall_trace(w, color);
 			// sol
-			ft_floor_trace(w);
+			ft_floor_trace(w, w->wolf_height);
 			w->y_screen++;
 		}
-		//dist = 0.0;
-		//ft_putnbr(w->trace_y);
-		//ft_putchar(' ');
 		w->trace_y = 0;
-		//trace_iny = 0;
 		w->y_screen = 0;
 		w->angle_min = angle_check(w->angle_min -= 0.075); //0.075
 		w->x_screen++;
@@ -99,9 +81,9 @@ void ft_wall_trace(t_wolf *w, int color)
 	}
 }
 
-void ft_floor_trace(t_wolf *w)
+void ft_floor_trace(t_wolf *w, int height)
 {
-		while (w->trace_y < w->wolf_height)
+		while (w->trace_y < height)
 		{
 			w->img = pixel_put_to_image(w, w->x_screen, w->trace_y, 0xFFFFFF);
 			w->trace_y++;
@@ -121,18 +103,21 @@ void ft_floor_trace(t_wolf *w)
 void ray_advances(t_wolf *w) // version tres precise de calcul des coins. Fonctionne
 {
 	int r;
+	double dist_adv;
 
+	dist_adv = 0.1;
 	r = 0;
 	while (r == 0)
 	{
-		w->x_wall_check = w->x_wall_check + cos((w->angle_min / 180.0) * M_PI) * 0.1; // modifier pour changer aliasing. Pour moins de cas problematiques, garder multiple de 2. 
-		w->y_wall_check = w->y_wall_check - sin((w->angle_min / 180.0) * M_PI) * 0.1;
-		// Peut etre a modifier pour faire differential analysis. Pas difficile a faire.
+		w->x_wall_check = w->x_wall_check + cos((w->angle_min / 180.0) * M_PI) * dist_adv; // modifier pour changer aliasing. Pour moins de cas problematiques, garder multiple de 2. 
+		w->y_wall_check = w->y_wall_check - sin((w->angle_min / 180.0) * M_PI) * dist_adv;
+		//dist_adv += 0.1;
+
 		if ((((int)w->x_wall_check % 64 == 0) || ((int)w->x_wall_check % 64 == 63)) ||
 			(((int)w->y_wall_check % 64 == 0) || ((int)w->y_wall_check % 64 == 63)))
 		{
-			if (((fabs(remainder(w->x_wall_check, 64.0)) < 0.1)) &&
-				((fabs(remainder(w->y_wall_check, 64.0)) < 0.1)))
+			if (((fabs(remainder(w->x_wall_check, 64.0)) < dist_adv)) &&
+				((fabs(remainder(w->y_wall_check, 64.0)) < dist_adv)))
 			{
 				if (w->map[pos_tb(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)
 				{
@@ -140,7 +125,7 @@ void ray_advances(t_wolf *w) // version tres precise de calcul des coins. Foncti
 					r = 1;
 				}
 			}
-			else if ((fabs(remainder(w->x_wall_check, 64.0)) < 0.1))
+			else if ((fabs(remainder(w->x_wall_check, 64.0)) < dist_adv))
 			{
 				if (w->map[pos_tb(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)
 				{
@@ -148,7 +133,7 @@ void ray_advances(t_wolf *w) // version tres precise de calcul des coins. Foncti
 					r = 1;
 				}
 			}
-			else if ((fabs(remainder(w->y_wall_check, 64.0)) < 0.1))
+			else if ((fabs(remainder(w->y_wall_check, 64.0)) < dist_adv))
 			{
 				if (w->map[pos_tb(w->y_wall_check)][pos_tb(w->x_wall_check)] != 0)
 				{
