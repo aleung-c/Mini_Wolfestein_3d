@@ -3,132 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   create_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 13:21:39 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/01/15 12:48:31 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/02/11 16:59:49 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-char	*turn_space(char *line)
+int ft_ctoi(char c)
 {
-	int i;
+	int chiffre;
 
-	i = 0;
-	while (line[i] != '\0')
-	{
-		if (!(ft_isdigit(line[i])) && (line[i] != '-'))
-			line[i] = ' ';
-		if (line[i] == '-' && line[i + 1] == ' ')
-			line[i] = ' ';
-		i++;
-	}
-	return (line);
+	chiffre = c - 48;
+	
+	return (chiffre);
 }
 
-int		**ft_create_int_map(char *arg, t_wolf w)
+int		**ft_create_int_map(char *arg)
 {
-	char	***tb;
+	int 	fd;
+	int 	ret;
+	int 	i;
+	int 	y;
+	int 	x;
 	int		**map;
-	int		x;
-	int		y;
-	int		l;
+	char 	*buf;
 
-	l = 0;
-	x = 0;
+	i = 0;
 	y = 0;
-	map = (int **)ft_memalloc(w.size_y);
-	tb = ft_create_char_map(arg, w);
-	while (tb[y])
+	x = 0;
+	if (!(fd = open(arg, O_RDONLY)))
+		exit(0);
+	buf = ft_strnew(4096);
+	map = (int **)malloc(sizeof(int *) * 10);
+	if ((ret = read(fd, buf, 4096)))
 	{
-		if(!(map[y] = (int *)malloc(sizeof(int) * w.size_l[l])))
-			return (NULL);
-		while (tb[y][x])
-		{
-			map[y][x] = ft_atoi(tb[y][x]);
-			x++;
+	//	ft_putendl("Buf content :");
+	//	ft_putstr(buf);		
+		//y++;
+		while (buf[i])
+		{	
+			if (!(map[y] = (int *)malloc(sizeof(int) * 15)))
+				exit(0);
+			while (buf[i] != '\n' && buf[i])
+			{
+				if (ft_isdigit(buf[i]) == 1)
+				{
+					map[y][x] = ft_ctoi(buf[i]);
+					//ft_putnbr(map[y][x]);
+					//ft_putchar(' ');
+					x++;
+				}
+				i++;				
+			}
+			if (buf[i] == '\n')
+			{
+				//ft_putchar('\n');
+
+				y++;
+				x = 0;
+				i++;
+			}
 		}
-		x = 0;
-		y++;
-		l++;
+		free(buf);
 	}
-	w.map = map;
+	
 	return (map);
-}
-
-char	***ft_create_char_map(char *arg, t_wolf w)
-{
-	int		fd2;
-	char	*line;
-	char	***tb;
-	int		i;
-
-	i = 0;
-	fd2 = open(arg, O_RDONLY);
-	if (!(tb = (char ***)malloc(sizeof(char) * w.size_y + 1)))
-		return (NULL);
-	tb[w.size_y] = '\0';
-	while (get_next_line(fd2, &line))
-	{
-		line = turn_space(line);
-		tb[i] = ft_strsplit(line, ' ');
-		i++;
-	}
-	tb[i] = '\0';
-	free(line);
-	return (tb);
-}
-
-unsigned int	ft_count_values(char *str, int c)
-{
-	unsigned int i;
-	unsigned int val;
-
-	i = 0;
-	val = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-		{
-			while (str[i] && str[i] == c)
-				i++;
-		}
-		else if (str[i] != c)
-		{
-			val++;
-			while (str[i] && str[i] != c)
-				i++;
-		}
-	}
-	return (val);
-}
-
-int				ft_measure_map(char *arg, t_wolf *w)
-{
-	int				fd1;
-	int				fd2;
-	char			*line;
-	unsigned int	i;
-	unsigned int	j;
-
-	i = 0;
-	j = 0;
-	if ((fd1 = open(arg, O_RDONLY)) == -1)
-		return (-1);
-	fd2 = open(arg, O_RDONLY);
-	while (get_next_line(fd1, &line))
-		i++;
-	w->size_y = i;
-	if(!(w->size_l = (unsigned int *)malloc(sizeof(int) * i)))
-		return (-1);
-	while (get_next_line(fd2, &line))
-	{
-		w->size_l[j] = ft_count_values(line, ' ');
-		j++;
-	}
-	if (w->size_y == 0)
-		return (-2);
-	return (0);
 }
