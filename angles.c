@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   angles.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/03 16:34:02 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/01/03 16:40:09 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/02/12 16:32:37 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int		angle_rev(int angle)
 
 	angle_rev = angle + 180.0;
 	if (angle_rev > 360.0)
-	{
 		angle_rev = angle_rev - 360.0;
-	}
 	return (angle_rev);
 }

@@ -6,40 +6,11 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/18 13:44:23 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/11 17:57:22 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/02/12 16:46:37 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
-
-int		pos_tb(double val)
-{
-	return ((int)val / WALL_SIZE);
-}
-
-void	display_int_map(t_wolf w) //
-{
-	int y;
-	int x;
-	int l;
-
-	l = 0;
-	y = 0;
-	x = 0;
-	while (y < w.size_y)
-	{
-		while (x < w.size_l[l])
-		{
-			ft_putnbr(w.map[y][x]);
-			ft_putchar(' ');
-			x++;
-		}
-		ft_putchar('\n');
-		x = 0;
-		l++;
-		y++;
-	}
-}
 
 void	end_check(t_wolf *w)
 {

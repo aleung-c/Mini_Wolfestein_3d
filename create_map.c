@@ -6,69 +6,64 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 13:21:39 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/11 16:59:49 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/02/12 16:31:27 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-int ft_ctoi(char c)
+int		ft_ctoi(char c)
 {
 	int chiffre;
 
 	chiffre = c - 48;
-	
 	return (chiffre);
 }
 
 int		**ft_create_int_map(char *arg)
 {
-	int 	fd;
-	int 	ret;
-	int 	i;
-	int 	y;
-	int 	x;
+	int		fd;
 	int		**map;
-	char 	*buf;
+	char	*buf;
+	t_cp	cp;
 
-	i = 0;
-	y = 0;
-	x = 0;
+	cp.i = 0;
+	cp.x = 0;
+	cp.y = 0;
+	cp.ret = 0;
 	if (!(fd = open(arg, O_RDONLY)))
 		exit(0);
 	buf = ft_strnew(4096);
 	map = (int **)malloc(sizeof(int *) * 10);
-	if ((ret = read(fd, buf, 4096)))
-	{
-	//	ft_putendl("Buf content :");
-	//	ft_putstr(buf);		
-		//y++;
-		while (buf[i])
-		{	
-			if (!(map[y] = (int *)malloc(sizeof(int) * 15)))
-				exit(0);
-			while (buf[i] != '\n' && buf[i])
-			{
-				if (ft_isdigit(buf[i]) == 1)
-				{
-					map[y][x] = ft_ctoi(buf[i]);
-					//ft_putnbr(map[y][x]);
-					//ft_putchar(' ');
-					x++;
-				}
-				i++;				
-			}
-			if (buf[i] == '\n')
-			{
-				//ft_putchar('\n');
+	map = ft_read(map, buf, fd, &cp);
+	free(buf);
+	return (map);
+}
 
-				y++;
-				x = 0;
-				i++;
+int		**ft_read(int **map, char *buf, int fd, t_cp *cp)
+{
+	if ((cp->ret = read(fd, buf, 4096)))
+	{
+		while (buf[cp->i])
+		{
+			if (!(map[cp->y] = (int *)malloc(sizeof(int) * 15)))
+				exit(0);
+			while (buf[cp->i] != '\n' && buf[cp->i])
+			{
+				if (ft_isdigit(buf[cp->i]) == 1)
+				{
+					map[cp->y][cp->x] = ft_ctoi(buf[cp->i]);
+					cp->x++;
+				}
+				cp->i++;
+			}
+			if (buf[cp->i] == '\n')
+			{
+				cp->y++;
+				cp->x = 0;
+				cp->i++;
 			}
 		}
-		free(buf);
 	}
-	
 	return (map);
 }
