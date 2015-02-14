@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/06 11:16:58 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/12 17:03:30 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/02/13 14:06:22 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_wall_trace(t_wolf *w, int color)
 	int trace_iny;
 
 	trace_iny = 0;
-	if (w->btn_txt == 2)
+	if (w->btn_txt == 1)
 		ft_txt_trace(w);
 	else
 	{
