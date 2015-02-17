@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 13:21:39 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/12 16:31:27 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/02/17 14:31:02 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ int		**ft_create_int_map(char *arg)
 	cp.x = 0;
 	cp.y = 0;
 	cp.ret = 0;
-	if (!(fd = open(arg, O_RDONLY)))
+	if ((fd = open(arg, O_RDONLY)) < 0)
+	{
+		ft_putendl("Open failed.");
 		exit(0);
+	}
 	buf = ft_strnew(4096);
 	map = (int **)malloc(sizeof(int *) * 10);
 	map = ft_read(map, buf, fd, &cp);
