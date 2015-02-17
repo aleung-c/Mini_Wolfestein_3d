@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/18 13:44:23 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/17 14:32:09 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/02/17 14:53:25 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	end_check(t_wolf *w)
 	next_pos_y = w->y - sin((w->angle / 180.0) * M_PI) * 8.0;
 	if (w->map[next_pos_y / w->wall_size][next_pos_x / w->wall_size] == 2)
 	{
-		ft_putstr("End reached");
+		ft_putendl("End reached");
 		exit(0);
 	}
 }
