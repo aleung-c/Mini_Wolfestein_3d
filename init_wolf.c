@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 15:45:10 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/17 14:13:16 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/02/17 14:20:23 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,6 @@ void	ft_init_mlx(t_wolf *w)
 	w->minimap_height);
 	w->img_minimap = mlx_get_data_addr(w->imgv_minimap, &w->bpp_minimap,
 	&w->sizeline_minimap, &w->endian_minimap);
-	if (!(w->imgv_txt = mlx_xpm_file_to_image(w->mlx, "wall.xpm", &w->txt_width,
-	&w->txt_height)))
-		exit(0);
-	w->img_txt = mlx_get_data_addr(w->imgv_txt, &w->bpp_txt, &w->sizeline_txt,
-	&w->endian_txt);
 	ft_wolf(w);
 	mlx_expose_hook(w->win, expose_hook, w);
 	mlx_hook(w->win, KeyPress, KeyPressMask, key_press, w);

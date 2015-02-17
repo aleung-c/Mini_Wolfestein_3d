@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/18 13:44:53 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/17 14:14:39 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/02/17 14:21:07 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,6 @@ typedef struct		s_wolf
 	int				endian_minimap;
 	int				charpos_x;
 	int				charpos_y;
-
-	void			*imgv_txt;
-	char			*img_txt;
-	int				txt_width;
-	int				txt_height;
-	int				bpp_txt;
-	int				sizeline_txt;
-	int				endian_txt;
 
 	int				screen_width;
 	int				screen_height;
