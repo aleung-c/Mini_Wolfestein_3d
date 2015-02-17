@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/16 16:20:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/12 16:45:42 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/02/17 14:14:49 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int		key_press(int keycode, t_wolf *w)
 		w->sleft = 1;
 	else if (keycode == 100)
 		w->sright = 1;
-	else if (keycode == 101)
-		w->btn_txt = (w->btn_txt == 1) ? 0 : 1;
 	else if (keycode == 65307)
 	{
 		ft_putendl("Exit Wolf3d");

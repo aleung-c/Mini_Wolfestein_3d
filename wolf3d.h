@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/18 13:44:53 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/12 17:09:14 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/02/17 14:14:39 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,6 @@ typedef struct		s_wolf
 	int				y_screen;
 	int				trace_sky_size;
 	int				trace_wall_size;
-
-	int				lvl;
-	int				btn_txt;
 
 	int				minimap_wall_size;
 	int				minimap_width;
@@ -160,7 +157,6 @@ void				ft_sky_trace(t_wolf *w);
 void				send_to_trace(t_wolf *w, int color);
 
 void				ft_wall_trace(t_wolf *w, int color);
-void				ft_txt_trace(t_wolf *w);
 void				ft_floor_trace(t_wolf *w, int height);
 
 char				*pixel_put_to_image(t_wolf *w, int x, int y, int color);

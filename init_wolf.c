@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 15:45:10 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/13 15:36:08 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/02/17 14:13:16 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	init_key_var(t_wolf *w)
 	w->left = 0;
 	w->up = 0;
 	w->down = 0;
-	w->btn_txt = 0;
 }
 
 void	ft_init_mlx(t_wolf *w)
