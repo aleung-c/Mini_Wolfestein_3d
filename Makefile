@@ -21,9 +21,9 @@ OBJ = $(SRC:.c=.o)
 
 LIB = ./libft/
 
-MLX = -L/usr/X11/lib -lXext -lX11 -lmlx
+MLX = -lmlx -framework OpenGL -framework AppKit
 
-CC = gcc -g -Wall -Werror -Wall -Ofast -I/opt/X11/include
+CC = gcc -g -Wall -Werror -Wextra -Ofast
 
 all : Lib $(NAME)
 

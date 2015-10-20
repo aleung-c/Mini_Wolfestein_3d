@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/18 13:44:53 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/17 14:21:07 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/10/20 13:17:14 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "./libft/libft.h"
 # include <mlx.h>
 # include <math.h>
-# include <X11/X.h>
+# include "X.h"
 
 # define SCREEN_W 1450
 # define SCREEN_H 600

@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/16 16:20:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/17 14:14:49 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/10/20 13:22:06 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ void	wolf_key_check(t_wolf *w)
 
 int		key_press(int keycode, t_wolf *w)
 {
-	if (keycode == 65363)
+	if (keycode == 124)
 		w->right = 1;
-	else if (keycode == 65361)
+	else if (keycode == 123)
 		w->left = 1;
-	else if (keycode == 65362 || keycode == 119)
+	else if (keycode == 126 || keycode == 13)
 		w->up = 1;
-	else if (keycode == 65364 || keycode == 115)
+	else if (keycode == 125 || keycode == 1)
 		w->down = 1;
-	else if (keycode == 97)
+	else if (keycode == 0)
 		w->sleft = 1;
-	else if (keycode == 100)
+	else if (keycode == 2)
 		w->sright = 1;
-	else if (keycode == 65307)
+	else if (keycode == 53)
 	{
 		ft_putendl("Exit Wolf3d");
 		exit(0);
@@ -52,17 +52,17 @@ int		key_press(int keycode, t_wolf *w)
 
 int		key_release(int keycode, t_wolf *w)
 {
-	if (keycode == 65363)
+	if (keycode == 124)
 		w->right = 0;
-	else if (keycode == 65361)
+	else if (keycode == 123)
 		w->left = 0;
-	else if (keycode == 65362 || keycode == 119)
+	else if (keycode == 126 || keycode == 13)
 		w->up = 0;
-	else if (keycode == 65364 || keycode == 115)
+	else if (keycode == 125 || keycode == 1)
 		w->down = 0;
-	else if (keycode == 97)
+	else if (keycode == 0)
 		w->sleft = 0;
-	else if (keycode == 100)
+	else if (keycode == 2)
 		w->sright = 0;
 	return (0);
 }

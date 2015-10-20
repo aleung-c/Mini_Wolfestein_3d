@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/08 12:39:38 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/09 16:45:23 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/10/15 12:49:34 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ char					**ft_strsplit(char const *s, char c)
 	nbw = ft_countw(str, c);
 	if (!(tb = (char **)malloc(sizeof(char *) * nbw + 2)))
 		return (NULL);
-	tb[nbw] = '\0';
+	tb[nbw] = NULL;
 	if (nbw == 0)
 	{
-		tb[1] = '\0';
+		tb[1] = NULL;
 		return (tb);
 	}
 	tb = ft_mallocl(tb, str, c);

@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/03 16:23:08 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/02/12 15:57:09 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/10/15 12:50:09 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int check_wall_color_simple(t_wolf *w)
 {
 	if (w->touch == 0)
 	{
-		if (w->touch == 0 && fabs((int)w->prev_dist - (int)w->dist) > 20)
+		if (w->touch == 0 && abs((int)w->prev_dist - (int)w->dist) > 20)
 			return (w->next_color);
 		else
 			return (w->prev_color_used);
