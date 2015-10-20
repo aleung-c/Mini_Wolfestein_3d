@@ -10,3 +10,5 @@ This allows us to draw walls of different sizes on each column of the screen, gi
 The hardest part of this project was to give different colors to walls depending on their orientation, for which i used a modulo method based on the angle of the user's view, and the defined distance separing two cases on my map.
 
 ![Alt text](./cover/wolf3d_screenshot.png "42 Wolf3d screenshot")
+
+Note: using the school's display library (mlx), it might not compile if downloaded.
